@@ -1,4 +1,4 @@
-const api = "localhost:3001";
+const api = "//localhost:3001";
 
 // Generate a unique token for storing your bookshelf data on the backend server.
 let token = localStorage.token;
@@ -146,7 +146,7 @@ export const getCommentDetails = id =>
  * @param {String} commentId
  * @param {String} vote either "upVote" or "downVote"
  */
-export const voteComment = commentId =>
+export const voteComment = (commentId, vote) =>
   fetch(`${api}/comments/${commentId}`, {
     method: "POST",
     headers: {
