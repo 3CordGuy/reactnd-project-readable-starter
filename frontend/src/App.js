@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import * as ReadableAPI from "./Util/readable-api";
-import { Route } from "react-router-dom";
+// import { Route } from "react-router-dom";
 import Header from "./Components/Header";
+import PostList from "./Components/PostList";
 import "./App.css";
 import "spectre.css/dist/spectre.min.css";
 import "spectre.css/dist/spectre-icons.min.css";
@@ -18,10 +19,10 @@ class App extends Component {
     this.setState({ loading: true });
     ReadableAPI.getPosts().then(posts => {
       console.log(posts);
-      // this.setState({
-      //   books,
-      //   loading: false
-      // });
+      this.setState({
+        posts,
+        loading: false
+      });
     });
   }
 
@@ -29,9 +30,7 @@ class App extends Component {
     return (
       <div className="container grid-lg">
         <Header />
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <PostList posts={this.state.posts} />
       </div>
     );
   }
