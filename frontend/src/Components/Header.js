@@ -5,14 +5,14 @@ export default class Header extends Component {
     return (
       <header className="navbar m-2">
         <section className="navbar-section">
-          <a className="navbar-brand mr-2">Readable</a>
-          <a className="btn btn-link">Categories</a>
+          <a className="navbar-brand text-large mr-2">
+            <i className="icon icon-message" /> Readable
+          </a>
         </section>
         <section className="navbar-section">
-          <div className="input-group input-inline">
-            <input className="form-input" type="text" placeholder="search" />
-            <button className="btn btn-primary input-group-btn">Search</button>
-          </div>
+          <button className="btn btn-primary input-group-btn">
+            <i className="icon icon-plus" /> Create Post
+          </button>
         </section>
       </header>
     );
