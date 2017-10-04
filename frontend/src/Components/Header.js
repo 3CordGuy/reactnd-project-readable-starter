@@ -1,20 +1,23 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class Header extends Component {
   render() {
     return (
-      <header className="navbar m-2">
-        <section className="navbar-section">
-          <a className="navbar-brand text-large mr-2">
-            <i className="icon icon-message" /> Readable
-          </a>
-        </section>
-        <section className="navbar-section">
-          <button className="btn btn-primary input-group-btn">
-            <i className="icon icon-plus" /> Create Post
-          </button>
-        </section>
-      </header>
+      <div>
+        <header className="navbar m-2">
+          <section className="navbar-section">
+            <Link className="navbar-brand text-large mr-2" to="/">
+              <i className="icon icon-message" /> Readable
+            </Link>
+          </section>
+          <section className="navbar-section">
+            <Link className="btn btn-primary input-group-btn" to="/add">
+              <i className="icon icon-plus" /> Create Post
+            </Link>
+          </section>
+        </header>
+      </div>
     );
   }
 }

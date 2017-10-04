@@ -1,13 +1,41 @@
 import React, { Component } from "react";
+import * as ReadableAPI from "../Util/readable-api";
 import PostListItem from "./PostListItem";
 import sortBy from "sort-by";
 
 export default class PostList extends Component {
+  state = {
+    loading: false,
+    posts: []
+  };
+  componentDidMount() {
+    // Start Spinner
+    this.setState({ loading: true });
+    const { params } = this.props.match;
+
+    if (params.category) {
+      ReadableAPI.getPostsByCategory(params.category).then(posts => {
+        this.setState({
+          posts,
+          loading: false
+        });
+      });
+    } else {
+      ReadableAPI.getPosts().then(posts => {
+        this.setState({
+          posts,
+          loading: false
+        });
+      });
+    }
+  }
   render() {
-    const { posts } = this.props;
+    const { posts } = this.state;
+    const { location } = this.props;
     return (
       <div>
         {posts &&
+          posts.length &&
           posts
             .sort(sortBy("-voteScore", "-timestamp"))
             .map(post => <PostListItem key={post.id} post={post} />)}

@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import VoteButtons from "./VoteButtons";
 import moment from "moment";
 
 export default class PostListItem extends Component {
@@ -7,29 +9,25 @@ export default class PostListItem extends Component {
     return (
       <div className="card m-2">
         <div className="card-header">
-          <span className="chip float-right">{post.category}</span>
+          <Link className="chip float-right" to={`/${post.category}`}>
+            {post.category}
+          </Link>
           <div className="float-left mx-2">
-            <button
-              className="btn btn-block btn-sm tooltip"
-              data-tooltip={`Upvote (${post.voteScore})`}
-            >
-              <i className="icon icon-arrow-up" />
-            </button>
-            <button
-              className="btn btn-block btn-sm tooltip tooltip-bottom"
-              data-tooltip={`Downvote (${post.voteScore})`}
-            >
-              <i className="icon icon-arrow-down" />
-            </button>
+            <VoteButtons score={post.voteScore} />
           </div>
-          <div className="card-title h5">{post.title}</div>
+          <Link className="card-title h5" to={`/${post.category}/${post.id}`}>
+            {post.title}
+          </Link>
           <div className="card-subtitle text-gray">
             Submitted {moment(post.timestamp).fromNow()} by{" "}
             <span className="text-bold">{post.author}</span>
           </div>
         </div>
-        <div className="card-body">{post.body}</div>
-        <div className="card-footer" />
+        <div className="card-footer">
+          <div className="label m-1">
+            <i className="icon icon-message" /> Comments
+          </div>
+        </div>
       </div>
     );
   }

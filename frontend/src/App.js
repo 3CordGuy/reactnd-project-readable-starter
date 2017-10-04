@@ -1,36 +1,30 @@
 import React, { Component } from "react";
-import * as ReadableAPI from "./Util/readable-api";
-// import { Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Header from "./Components/Header";
 import PostList from "./Components/PostList";
+import PostDetails from "./Components/PostDetails";
+import AddPost from "./Components/AddPost";
 import "./App.css";
 import "spectre.css/dist/spectre.min.css";
 import "spectre.css/dist/spectre-icons.min.css";
 
 class App extends Component {
-  state = {
-    loading: false,
-    posts: [],
-    categories: []
-  };
-
-  componentDidMount() {
-    // Start Spinner
-    this.setState({ loading: true });
-    ReadableAPI.getPosts().then(posts => {
-      console.log(posts);
-      this.setState({
-        posts,
-        loading: false
-      });
-    });
-  }
-
   render() {
     return (
       <div className="container grid-lg">
-        <Header />
-        <PostList posts={this.state.posts} />
+        <Header {...this.props} />
+        <Route exact path="/" render={props => <PostList {...props} />} />
+        <Route
+          exact
+          path="/:category"
+          render={props => <PostList {...props} />}
+        />
+        <Route
+          exact
+          path="/:category/:postId"
+          render={props => <PostDetails {...props} />}
+        />
+        <Route exact path="/add" render={props => <AddPost {...props} />} />
       </div>
     );
   }
