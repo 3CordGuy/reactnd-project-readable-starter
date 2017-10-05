@@ -19,9 +19,11 @@ export default class PostListItem extends Component {
             {post.title}
           </Link>
           <div className="card-subtitle text-gray">
-            Submitted {moment(post.timestamp).fromNow()} by{" "}
+            Submitted {moment(post.timestamp).fromNow()} on{" "}
+            {moment(post.timestamp).format("MMM Do, YYYY [at] hh:mm a")} by{" "}
             <span className="text-bold">{post.author}</span>
           </div>
+          <span className="chip">{post.category}</span>
         </div>
         <div className="card-footer">
           <div className="label m-1">

@@ -5,6 +5,7 @@ import sortBy from "sort-by";
 
 export default class PostList extends Component {
   state = {
+    sort: "-voteScore",
     loading: false,
     posts: []
   };
@@ -31,7 +32,6 @@ export default class PostList extends Component {
   }
   render() {
     const { posts } = this.state;
-    const { location } = this.props;
     return (
       <div>
         {posts &&
