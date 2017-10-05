@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import SortDropdown from "./SortDropdown";
 
 export default class Header extends Component {
   render() {
@@ -12,6 +13,7 @@ export default class Header extends Component {
             </Link>
           </section>
           <section className="navbar-section">
+            <SortDropdown currentSort="-voteScore" />
             <Link className="btn btn-primary input-group-btn" to="/add">
               <i className="icon icon-plus" /> Create Post
             </Link>
