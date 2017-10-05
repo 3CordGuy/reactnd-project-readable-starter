@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import * as ReadableAPI from "../Util/readable-api";
 import CommentList from "./CommentList";
 import VoteButtons from "./VoteButtons";
+import EditControls from "./EditControls";
 import moment from "moment";
 
 export default class PostDetails extends Component {
@@ -26,16 +27,21 @@ export default class PostDetails extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { post } = this.state;
-    const { location } = this.props;
 
     return (
       <div>
         {post && (
           <div className="card m-2">
             <div className="card-header">
-              <span className="chip float-right">{post.category}</span>
+              <span className="float-right">
+                <EditControls
+                  isPrimary={true}
+                  label="POST CONTROLS"
+                  onEditHandler={() => console.log("Clicked Edit Post")}
+                  onDeleteHandler={() => console.log("Clicked Delete Post")}
+                />
+              </span>
               <div className="float-left mx-2">
                 <VoteButtons score={post.voteScore} />
               </div>
@@ -44,6 +50,7 @@ export default class PostDetails extends Component {
                 Submitted {moment(post.timestamp).fromNow()} by{" "}
                 <span className="text-bold">{post.author}</span>
               </div>
+              <span className="chip">{post.category}</span>
             </div>
             <div className="card-body">{post.body}</div>
             <div className="card-footer">

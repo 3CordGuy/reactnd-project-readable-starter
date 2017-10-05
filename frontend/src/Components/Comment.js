@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import VoteButtons from "./VoteButtons";
+import EditControls from "./EditControls";
 import moment from "moment";
 
 export default class PostListItem extends Component {
@@ -14,6 +15,11 @@ export default class PostListItem extends Component {
           </div>
         </div>
         <div className="tile-content">
+          <EditControls
+            label="COMMENT CONTROLS"
+            onEditHandler={() => console.log("Clicked Edit Comment")}
+            onDeleteHandler={() => console.log("Clicked Delete Comment")}
+          />
           <p className="tile-title">
             <span className="text-bold">{comment.author}</span> posted{" "}
             {moment(comment.timestamp).fromNow()} on{" "}
