@@ -9,7 +9,7 @@ export default class PostControls extends Component {
       onEditHandler
     } = this.props;
     return (
-      <div className="dropdown mx-2 float-right">
+      <div className="dropdown dropdown-right mx-2 float-right">
         <div className="btn-group">
           <button
             className={`btn dropdown-toggle ${isPrimary && "btn-primary"}`}
