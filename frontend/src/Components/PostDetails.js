@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import * as ReadableAPI from "../Util/readable-api";
 import CommentList from "./CommentList";
+import { Link } from "react-router-dom";
 import VoteButtons from "./VoteButtons";
 import EditControls from "./EditControls";
 import moment from "moment";
@@ -50,7 +51,9 @@ export default class PostDetails extends Component {
                 Submitted {moment(post.timestamp).fromNow()} by{" "}
                 <span className="text-bold">{post.author}</span>
               </div>
-              <span className="chip">{post.category}</span>
+              <Link className="chip" to={`/${post.category}`}>
+                {post.category}
+              </Link>
             </div>
             <div className="card-body">{post.body}</div>
             <div className="card-footer">
