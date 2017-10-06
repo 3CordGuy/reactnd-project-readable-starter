@@ -13,7 +13,6 @@ export default class PostList extends Component {
     // Start Spinner
     this.setState({ loading: true });
     const { params } = this.props.match;
-
     if (params.category) {
       ReadableAPI.getPostsByCategory(params.category).then(posts => {
         this.setState({
@@ -35,7 +34,7 @@ export default class PostList extends Component {
     return (
       <div>
         {posts &&
-          posts.length &&
+          posts.length > 0 &&
           posts
             .sort(sortBy("-voteScore", "-timestamp"))
             .map(post => <PostListItem key={post.id} post={post} />)}
