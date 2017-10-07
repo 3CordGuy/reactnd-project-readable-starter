@@ -44,7 +44,6 @@ export default class AddPost extends Component {
     this.setState({ loading: true });
 
     ReadableAPI.getCategories().then(response => {
-      console.log(response.categories);
       this.setState({
         categories: response.categories,
         loading: false
