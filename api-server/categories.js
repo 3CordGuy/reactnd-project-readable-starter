@@ -20,6 +20,10 @@ const defaultData = {
     {
       name: "boardgames",
       path: "boardgames"
+    },
+    {
+      name: "food",
+      path: "food"
     }
   ]
 };
