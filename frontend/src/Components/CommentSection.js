@@ -4,7 +4,7 @@ import CommentAddForm from "./CommentAddForm";
 import * as ReadableAPI from "../Util/readable-api";
 import sortBy from "sort-by";
 
-export default class CommentList extends Component {
+export default class CommentSection extends Component {
   state = {
     comments: [],
     loading: false
@@ -31,7 +31,7 @@ export default class CommentList extends Component {
           <div className="card-title">Add a Comment</div>
         </div>
         <div className="card-body">
-          <CommentAddForm />
+          <CommentAddForm postId={this.props.postId} />
         </div>
         <div className="card-footer">
           <h6>{comments.length} Comments</h6>
