@@ -13,7 +13,7 @@ export default class Header extends Component {
             </Link>
           </section>
           <section className="navbar-section">
-            <SortDropdown currentSort="-voteScore" />
+            <SortDropdown />
             <Link className="btn btn-primary input-group-btn" to="/add">
               <i className="icon icon-plus" /> Create Post
             </Link>
