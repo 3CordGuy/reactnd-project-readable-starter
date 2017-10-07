@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import { setSort } from "../Actions";
+import { connect } from "react-redux";
 
-export default class SortDropdown extends Component {
+class SortDropdown extends Component {
   render() {
-    const { currentSort } = this.props;
+    const { sort } = this.props;
+    console.log(this.props);
     return (
       <div className="dropdown mx-2">
         <div className="btn-group">
@@ -12,16 +15,24 @@ export default class SortDropdown extends Component {
           <ul className="menu">
             <li className="divider" data-content="SORT" />
             <li
-              className={`menu-item ${currentSort === "-timestamp" &&
-                "bg-secondary"}`}
+              className={`menu-item ${sort === "-timestamp" && "bg-secondary"}`}
             >
-              <a className="c-hand">By Date</a>
+              <a
+                className="c-hand"
+                onClick={() => this.props.setSort("-timestamp")}
+              >
+                By Date
+              </a>
             </li>
             <li
-              className={`menu-item ${currentSort === "-voteScore" &&
-                "bg-secondary"}`}
+              className={`menu-item ${sort === "-voteScore" && "bg-secondary"}`}
             >
-              <a className="c-hand">By Score</a>
+              <a
+                className="c-hand"
+                onClick={() => this.props.setSort("-voteScore")}
+              >
+                By Score
+              </a>
             </li>
           </ul>
         </div>
@@ -29,3 +40,18 @@ export default class SortDropdown extends Component {
     );
   }
 }
+
+function mapStateToProps({ postList }) {
+  console.log("MAP to props", postList);
+  return {
+    sort: postList.sort
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setSort: sort => dispatch(setSort(sort))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SortDropdown);
