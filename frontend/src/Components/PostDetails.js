@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as ReadableAPI from "../Util/readable-api";
-import CommentList from "./CommentList";
+import CommentSection from "./CommentSection";
 import { Link } from "react-router-dom";
 import VoteButtons from "./VoteButtons";
 import EditControls from "./EditControls";
@@ -19,7 +19,6 @@ export default class PostDetails extends Component {
     const { postId } = this.props.match.params;
 
     ReadableAPI.getPostDetails(postId).then(post => {
-      console.log(post);
       this.setState({
         post,
         loading: false
@@ -57,7 +56,7 @@ export default class PostDetails extends Component {
             </div>
             <div className="card-body">{post.body}</div>
             <div className="card-footer">
-              <CommentList postId={post.id} />
+              <CommentSection postId={post.id} />
             </div>
           </div>
         )}
