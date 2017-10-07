@@ -26,9 +26,21 @@ export default class PostListItem extends Component {
       <div className="column col-3">
         <ul className="nav">
           <li className="divider" data-content="CATEGORIES" />
+          <li className={!this.props.selected ? "nav-item active" : "nav-item"}>
+            <Link to="/">All</Link>
+          </li>
           {categories &&
             categories.map(c => (
-              <li className="nav-item" key={c.name}>
+              <li
+                className={
+                  this.props.selected === c.name ? (
+                    "nav-item active"
+                  ) : (
+                    "nav-item"
+                  )
+                }
+                key={c.name}
+              >
                 <Link to={`/${c.path}`}>{c.name}</Link>
               </li>
             ))}

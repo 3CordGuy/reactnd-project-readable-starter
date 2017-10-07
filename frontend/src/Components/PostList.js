@@ -33,7 +33,7 @@ export default class PostList extends Component {
     }
   }
   render() {
-    const { posts } = this.state;
+    const { posts, category } = this.state;
     return (
       <div className="columns">
         <div className="column col-9">
@@ -43,7 +43,7 @@ export default class PostList extends Component {
               .sort(sortBy("-voteScore", "-timestamp"))
               .map(post => <PostListItem key={post.id} post={post} />)}
         </div>
-        <CategoryList />
+        <CategoryList selected={category} />
       </div>
     );
   }
