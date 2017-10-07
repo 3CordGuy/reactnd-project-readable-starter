@@ -1,46 +1,35 @@
 import React, { Component } from "react";
-import * as ReadableAPI from "../Util/readable-api";
+// import * as ReadableAPI from "../Util/readable-api";
 import PostListItem from "./PostListItem";
 import CategoryList from "./CategoryList";
 import sortBy from "sort-by";
+import { connect } from "react-redux";
+import { getPosts } from "../Actions";
 
-export default class PostList extends Component {
+class PostList extends Component {
   state = {
-    category: this.props.match.params.category,
-    sort: "-voteScore",
-    loading: false,
-    posts: []
+    sort: null
   };
   componentDidMount() {
     const { params } = this.props.match;
-    const { category } = this.state;
-    this.setState({ loading: true, category: params.category });
-
-    if (category) {
-      ReadableAPI.getPostsByCategory(category).then(posts => {
-        this.setState({
-          posts,
-          loading: false
-        });
-      });
-    } else {
-      ReadableAPI.getPosts().then(posts => {
-        this.setState({
-          posts,
-          loading: false
-        });
-      });
-    }
+    this.props.getPosts(params.category);
+    // this.props.subscribe(() => {
+    //   store.getState();
+    //   this.setState({
+    //     sort:
+    //   })
+    // });
   }
+
   render() {
-    const { posts, category } = this.state;
+    const { posts, category, sort } = this.props;
     return (
       <div className="columns">
         <div className="column col-9">
           {posts &&
             posts.length > 0 &&
             posts
-              .sort(sortBy("-voteScore", "-timestamp"))
+              .sort(sortBy(sort))
               .map(post => <PostListItem key={post.id} post={post} />)}
         </div>
         <CategoryList selected={category} />
@@ -48,3 +37,19 @@ export default class PostList extends Component {
     );
   }
 }
+
+function mapStateToProps({ postList, commentList }) {
+  return {
+    posts: postList.posts,
+    sort: postList.sort,
+    category: postList.category
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getPosts: data => dispatch(getPosts(data))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostList);
