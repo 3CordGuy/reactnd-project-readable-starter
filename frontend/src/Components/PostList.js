@@ -38,11 +38,11 @@ class PostList extends Component {
   }
 }
 
-function mapStateToProps({ postList, commentList }) {
+function mapStateToProps({ posts, sort, category }) {
   return {
-    posts: postList.posts,
-    sort: postList.sort,
-    category: postList.category
+    posts,
+    sort,
+    category
   };
 }
 

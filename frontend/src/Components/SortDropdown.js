@@ -41,10 +41,9 @@ class SortDropdown extends Component {
   }
 }
 
-function mapStateToProps({ postList }) {
-  console.log("MAP to props", postList);
+function mapStateToProps({ sort }) {
   return {
-    sort: postList.sort
+    sort
   };
 }
 

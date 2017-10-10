@@ -14,6 +14,7 @@ class App extends Component {
       <div className="container grid-lg">
         <Header {...this.props} />
         <Route exact path="/" render={props => <PostList {...props} />} />
+        <Route exact path="/add" render={props => <AddPost {...props} />} />
         <Route
           exact
           path="/:category"
@@ -24,7 +25,6 @@ class App extends Component {
           path="/:category/:postId"
           render={props => <PostDetails {...props} />}
         />
-        <Route exact path="/add" render={props => <AddPost {...props} />} />
       </div>
     );
   }
