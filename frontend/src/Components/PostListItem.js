@@ -10,7 +10,7 @@ export default class PostListItem extends Component {
       <div className="card m-2">
         <div className="card-header">
           <div className="float-left mx-2">
-            <VoteButtons score={post.voteScore} />
+            <VoteButtons score={post.voteScore} kind="post" postId={post.id} />
           </div>
           <Link className="card-title h5" to={`/${post.category}/${post.id}`}>
             {post.title}

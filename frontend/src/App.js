@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import Header from "./Components/Header";
 import PostList from "./Components/PostList";
-import PostDetails from "./Components/PostDetails";
+import Post from "./Components/Post";
 import AddPost from "./Components/AddPost";
 import "./App.css";
 import "spectre.css/dist/spectre.min.css";
@@ -17,13 +17,13 @@ class App extends Component {
         <Route exact path="/add" render={props => <AddPost {...props} />} />
         <Route
           exact
-          path="/:category"
+          path="/category/:category"
           render={props => <PostList {...props} />}
         />
         <Route
           exact
           path="/:category/:postId"
-          render={props => <PostDetails {...props} />}
+          render={props => <Post {...props} detailView={true} />}
         />
       </div>
     );

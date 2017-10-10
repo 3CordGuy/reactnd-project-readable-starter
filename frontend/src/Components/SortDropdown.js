@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 class SortDropdown extends Component {
   render() {
     const { sort } = this.props;
-    console.log(this.props);
     return (
       <div className="dropdown mx-2">
         <div className="btn-group">

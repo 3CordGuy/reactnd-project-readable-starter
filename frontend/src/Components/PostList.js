@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import * as ReadableAPI from "../Util/readable-api";
-import PostListItem from "./PostListItem";
+import Post from "./Post";
 import CategoryList from "./CategoryList";
 import sortBy from "sort-by";
 import { connect } from "react-redux";
@@ -30,7 +30,9 @@ class PostList extends Component {
             posts.length > 0 &&
             posts
               .sort(sortBy(sort))
-              .map(post => <PostListItem key={post.id} post={post} />)}
+              .map(post => (
+                <Post key={post.id} post={post} detailView={false} />
+              ))}
         </div>
         <CategoryList selected={category} />
       </div>

@@ -11,7 +11,11 @@ export default class PostListItem extends Component {
       <div className="tile bg-gray p-2 m-2">
         <div className="tile-icon">
           <div className="example-tile-icon">
-            <VoteButtons score={comment.voteScore} />
+            <VoteButtons
+              score={comment.voteScore}
+              kind="comment"
+              commentId={comment.id}
+            />
           </div>
         </div>
         <div className="tile-content">
