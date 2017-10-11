@@ -6,6 +6,7 @@ import {
   GET_POSTS,
   // VOTE_COMMENT,
   VOTE_POST,
+  GET_POST,
   GET_POST_COMMENTS
 } from "../Actions";
 
@@ -35,6 +36,9 @@ function posts(state = initialPostState, action) {
     case GET_POSTS:
       const { posts } = action;
       return posts;
+    case GET_POST:
+      const { post } = action;
+      return [...post];
     case VOTE_POST:
       const { voteScore, id } = action;
       return state.map(post => {

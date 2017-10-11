@@ -5,23 +5,22 @@ import { Link } from "react-router-dom";
 import VoteButtons from "./VoteButtons";
 import EditControls from "./EditControls";
 import { connect } from "react-redux";
-import { getPostComments } from "../Actions";
+import { getPostComments, getPostDetails } from "../Actions";
 import moment from "moment";
 
 class Post extends Component {
-  // state = {
-  //   loading: false,
-  //   post: null,
-  //   comments: []
-  // };
-
-  componentDidMount() {
-    const { getComments, post } = this.props;
-    post && post.id && getComments(post.id);
-  }
+  // componentDidMount() {
+  //   const { getComments, getPostDetails, post, match } = this.props;
+  //   if (post && post.id) {
+  //     getComments(post.id);
+  //   } else {
+  //     getPostDetails(match.params.postId);
+  //   }
+  // }
 
   render() {
-    const { post, detailView, comments } = this.props;
+    const { posts, detailView, comments } = this.props;
+    const post = posts.length && posts[0];
 
     return (
       <div>
@@ -87,17 +86,21 @@ class Post extends Component {
   }
 }
 
-function mapStateToProps({ comments }, ownProps) {
+function mapStateToProps({ comments, posts }, ownProps) {
+  const postId = ownProps.postId || ownProps.match.params.postId;
   return {
     comments: comments.filter(
-      comment => comment.parentId === (ownProps.post && ownProps.post.id)
-    )
+      comment =>
+        comment.parentId === (ownProps.match && ownProps.match.params.postId)
+    ),
+    posts: posts.filter(post => post.id === postId)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getComments: data => dispatch(getPostComments(data))
+    getComments: data => dispatch(getPostComments(data)),
+    getPostDetails: data => dispatch(getPostDetails(data))
   };
 }
 

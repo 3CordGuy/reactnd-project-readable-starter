@@ -31,7 +31,7 @@ class PostList extends Component {
             posts
               .sort(sortBy(sort))
               .map(post => (
-                <Post key={post.id} post={post} detailView={false} />
+                <Post key={post.id} postId={post.id} detailView={false} />
               ))}
         </div>
         <CategoryList selected={category} />

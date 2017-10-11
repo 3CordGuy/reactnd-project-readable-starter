@@ -4,6 +4,7 @@ export const SET_SORT = "SET_SORT";
 export const VOTE_POST = "VOTE_POST";
 export const VOTE_COMMENT = "VOTE_COMMENT";
 export const GET_POSTS = "GET_POSTS";
+export const GET_POST = "GET_POST";
 export const GET_POST_COMMENTS = "GET_POST_COMMENTS";
 
 export function setCategory({ category }) {
@@ -56,6 +57,13 @@ export const handleCommentVote = ({ id, voteType }) => dispatch => {
   return;
 };
 
+export function receivePost(post) {
+  return {
+    type: GET_POST,
+    post
+  };
+}
+
 export function receivePosts(posts) {
   return {
     type: GET_POSTS,
@@ -72,6 +80,11 @@ export const getPosts = category => dispatch => {
   } else {
     ReadableAPI.getPosts().then(posts => dispatch(receivePosts(posts)));
   }
+  return;
+};
+
+export const getPostDetails = id => dispatch => {
+  ReadableAPI.getPostDetails(id).then(post => dispatch(receivePost(post)));
   return;
 };
 
