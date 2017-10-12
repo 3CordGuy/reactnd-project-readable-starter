@@ -1,76 +1,132 @@
 import { combineReducers } from "redux";
-
 import {
-  SET_CATEGORY,
-  SET_SORT,
-  GET_POSTS,
-  // VOTE_COMMENT,
-  VOTE_POST,
-  GET_POST,
-  GET_POST_COMMENTS
-} from "../Actions";
+  RECEIVE_POSTS,
+  RECEIVE_POST,
+  CREATE_POST,
+  UPDATE_POST,
+  DELETE_POST,
+  UP_VOTE_POST,
+  DOWN_VOTE_POST
+} from "../Actions/posts";
+import {
+  RECEIVE_COMMENTS,
+  CREATE_COMMENT,
+  UPDATE_COMMENT,
+  DELETE_COMMENT,
+  UP_VOTE_COMMENT,
+  DOWN_VOTE_COMMENT
+} from "../Actions/comments";
+import { RECEIVE_CATEGORIES } from "../Actions/categories";
+import { SORT_POSTS } from "../Actions/sort";
 
-const initialPostState = {
-  posts: null
-};
-
-const initialCategoryState = null;
-const initialSortState = "-voteScore";
-const initialCommentsState = [];
-
-function category(state = initialCategoryState, action) {
+function posts(state = {}, action) {
   switch (action.type) {
-    case SET_CATEGORY:
+    case RECEIVE_POSTS: {
+      const { posts } = action;
+
+      return {
+        ...state,
+        posts: posts.filter(post => !post.deleted)
+      };
+    }
+
+    case RECEIVE_POST: {
+      const { post } = action;
+      const posts = [...state, post];
+      return {
+        ...state,
+        posts
+      };
+    }
+
+    case CREATE_POST: {
+      const { post } = action;
+      const posts = [...state, post];
+      return {
+        ...state,
+        posts
+      };
+    }
+
+    case UPDATE_POST: {
+      const { post } = action;
+      const posts = state.posts.reduce((postArr, curPost) => {
+        if (post.id === curPost.id) {
+          [...posts, curPost];
+        }
+      }, []);
+      return {
+        ...state,
+        posts
+      };
+    }
+
+    case DELETE_POST: {
+      const { postId } = action;
+      const posts = state.posts.filter(post => post !== postId);
+
+      return {
+        ...state,
+        posts
+      };
+    }
+
+    case DOWN_VOTE_POST:
+
+    case UP_VOTE_POST:
+      const { post } = action;
+      const posts = state.posts.reduce((postArr, curPost) => {
+        if (post.id === curPost.id) {
+          [...posts, curPost];
+        }
+      }, []);
+      return {
+        ...state,
+        posts
+      };
+
+    default:
+      return state;
+  }
+}
+
+function categories(state = {}, action) {
+  switch (action.type) {
+    case RECEIVE_CATEGORIES:
       const { category } = action;
       return {
         ...state,
-        category
+        categories
       };
     default:
       return state;
   }
 }
 
-function posts(state = initialPostState, action) {
+function sort(state = { sort: "-voteScore" }, action) {
   switch (action.type) {
-    case GET_POSTS:
-      const { posts } = action;
-      return posts;
-    case GET_POST:
-      const { post } = action;
-      return [...post];
-    case VOTE_POST:
-      const { voteScore, id } = action;
-      return state.map(post => {
-        if (post.id === id) {
-          return {
-            ...post,
-            voteScore
-          };
-        } else {
-          return { ...post };
-        }
-      });
-    default:
-      return state;
-  }
-}
-
-function sort(state = initialSortState, action) {
-  switch (action.type) {
-    case SET_SORT:
+    case SORT_POSTS:
       const { sort } = action;
       return sort;
     default:
-      return state;
+      return {
+        ...state,
+        sort
+      };
   }
 }
 
-function comments(state = initialCommentsState, action) {
+function comments(state = {}, action) {
   switch (action.type) {
-    case GET_POST_COMMENTS:
-      const { comments } = action;
-      return [...state, ...comments];
+    case RECEIVE_COMMENTS:
+      const { comments, postId } = action;
+      return {
+        ...state,
+        [postId]: comments.filter(comment => comment.deleted !== true)
+      };
+
+    // TODO: ADD MORE REDUCER CASES FOR COMMENTS
+
     default:
       return state;
   }
@@ -79,6 +135,6 @@ function comments(state = initialCommentsState, action) {
 export default combineReducers({
   posts,
   comments,
-  category,
+  categories,
   sort
 });

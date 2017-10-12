@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { handlePostVote, handleCommentVote } from "../Actions";
+import {
+  upVotePost,
+  downVotePost
+  // handleCommentVote
+} from "../Actions/posts";
 
 class VoteButtons extends Component {
   render() {
@@ -21,8 +25,8 @@ class VoteButtons extends Component {
           data-tooltip="Upvote"
           onClick={() =>
             kind === "post"
-              ? votePost({ id: postId, voteType: "upVote" })
-              : voteComment({ id: commentId, voteType: "upVote" })}
+              ? upVotePost(postId)
+              : console.log("DOWNVOTE COMMENT")}
         >
           <i className="icon icon-arrow-up" />
         </button>
@@ -37,8 +41,8 @@ class VoteButtons extends Component {
           data-tooltip="Downvote"
           onClick={() =>
             kind === "post"
-              ? votePost({ id: postId, voteType: "downVote" })
-              : voteComment({ id: commentId, voteType: "downVote" })}
+              ? downVotePost(postId)
+              : console.log("DOWNVOTE COMMENT")}
         >
           <i className="icon icon-arrow-down" />
         </button>
@@ -47,19 +51,20 @@ class VoteButtons extends Component {
   }
 }
 
-function mapStateToProps({ posts, comments, sort, category }) {
+function mapStateToProps({ posts, comments, sort, categories }) {
   return {
     posts,
     comments,
     sort,
-    category
+    categories
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    votePost: data => dispatch(handlePostVote(data)),
-    voteComment: data => dispatch(handleCommentVote(data))
+    upVotePost: data => dispatch(upVotePost(data)),
+    downVotePost: data => dispatch(downVotePost(data))
+    // voteComment: data => dispatch(handleCommentVote(data))
   };
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { setSort } from "../Actions";
+import { setSort } from "../Actions/sort";
 import { connect } from "react-redux";
 
 class SortDropdown extends Component {

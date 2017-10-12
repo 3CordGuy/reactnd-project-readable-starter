@@ -4,7 +4,7 @@ import Post from "./Post";
 import CategoryList from "./CategoryList";
 import sortBy from "sort-by";
 import { connect } from "react-redux";
-import { getPosts } from "../Actions";
+import { getPosts } from "../Actions/posts";
 
 class PostList extends Component {
   state = {
@@ -12,7 +12,7 @@ class PostList extends Component {
   };
   componentDidMount() {
     const { params } = this.props.match;
-    this.props.getPosts(params.category);
+    this.props.getPosts();
     // this.props.subscribe(() => {
     //   store.getState();
     //   this.setState({
@@ -42,7 +42,7 @@ class PostList extends Component {
 
 function mapStateToProps({ posts, sort, category }) {
   return {
-    posts,
+    posts: posts.posts,
     sort,
     category
   };

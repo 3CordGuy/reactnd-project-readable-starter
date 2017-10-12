@@ -5,18 +5,24 @@ import { Link } from "react-router-dom";
 import VoteButtons from "./VoteButtons";
 import EditControls from "./EditControls";
 import { connect } from "react-redux";
-import { getPostComments, getPostDetails } from "../Actions";
+import { getPost } from "../Actions/posts";
+import { getComments } from "../Actions/comments";
 import moment from "moment";
 
 class Post extends Component {
-  // componentDidMount() {
-  //   const { getComments, getPostDetails, post, match } = this.props;
-  //   if (post && post.id) {
-  //     getComments(post.id);
-  //   } else {
-  //     getPostDetails(match.params.postId);
-  //   }
-  // }
+  componentDidMount() {
+    const { getComments, getPost, posts, match } = this.props;
+    const reduxPostId = posts && posts.length && posts[0].id;
+    const routePostId = match && match.params && match.params.postId;
+
+    // if (reduxPostId) {
+    //   console.log("getting comments");
+    //   getComments(reduxPostId);
+    // } else {
+    //   console.log("getting post details");
+    //   getPost(routePostId);
+    // }
+  }
 
   render() {
     const { posts, detailView, comments } = this.props;
@@ -73,8 +79,8 @@ class Post extends Component {
                   <CommentSection postId={post.id} />
                 ) : (
                   <div className="label m-1">
-                    <i className="icon icon-message" /> {comments.length}{" "}
-                    Comments
+                    <i className="icon icon-message" />{" "}
+                    {comments && comments.length} Comments
                   </div>
                 )}
               </div>
@@ -89,18 +95,15 @@ class Post extends Component {
 function mapStateToProps({ comments, posts }, ownProps) {
   const postId = ownProps.postId || ownProps.match.params.postId;
   return {
-    comments: comments.filter(
-      comment =>
-        comment.parentId === (ownProps.match && ownProps.match.params.postId)
-    ),
-    posts: posts.filter(post => post.id === postId)
+    // comments: comments && comments.filter(comment => comment.parentId === postId),
+    posts: posts.posts.filter(post => post.id === postId)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getComments: data => dispatch(getPostComments(data)),
-    getPostDetails: data => dispatch(getPostDetails(data))
+    // getComments: data => dispatch(getPostComments(data)),
+    getPost: data => dispatch(getPost(data))
   };
 }
 
