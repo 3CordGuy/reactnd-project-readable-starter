@@ -128,18 +128,14 @@ export const addComment = comment =>
       "Content-Type": "application/json"
     },
     body: JSON.stringify(comment)
-  })
-    .then(res => res.json())
-    .then(data => data.books);
+  }).then(res => res.json());
 
 /**
  * getCommentDetails
  * @param {String} id
  */
 export const getCommentDetails = id =>
-  fetch(`${api}/comments/${id}`, { headers })
-    .then(res => res.json())
-    .then(data => data);
+  fetch(`${api}/comments/${id}`, { headers }).then(res => res.json());
 
 /**
  * votePost
@@ -154,9 +150,7 @@ export const voteComment = (commentId, vote) =>
       "Content-Type": "application/json"
     },
     body: vote
-  })
-    .then(res => res.json())
-    .then(data => data.books);
+  }).then(res => res.json());
 
 /**
  * updateComment
