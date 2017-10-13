@@ -18,27 +18,21 @@ const headers = {
  * @return {Array} category array
  */
 export const getPostsByCategory = category =>
-  fetch(`${api}/${category}/posts/`, { headers })
-    .then(res => res.json())
-    .then(data => data);
+  fetch(`${api}/${category}/posts/`, { headers }).then(res => res.json());
 
 /**
  * getCategories
  * @return {Array} category array
  */
 export const getCategories = () =>
-  fetch(`${api}/categories`, { headers })
-    .then(res => res.json())
-    .then(data => data);
+  fetch(`${api}/categories`, { headers }).then(res => res.json());
 
 /**
  * getPosts
  * @return {Array} category array
  */
 export const getPosts = () =>
-  fetch(`${api}/posts`, { headers })
-    .then(res => res.json())
-    .then(data => data);
+  fetch(`${api}/posts`, { headers }).then(res => res.json());
 
 /**
  * addPost
@@ -52,18 +46,14 @@ export const addPost = post =>
       "Content-Type": "application/json"
     },
     body: JSON.stringify(post)
-  })
-    .then(res => res.json())
-    .then(data => data.books);
+  }).then(res => res.json());
 
 /**
  * getPostDetails
  * @param {String} postId
  */
 export const getPostDetails = postId =>
-  fetch(`${api}/posts/${postId}`, { headers })
-    .then(res => res.json())
-    .then(data => data);
+  fetch(`${api}/posts/${postId}`, { headers }).then(res => res.json());
 
 /**
  * votePost
@@ -112,9 +102,7 @@ export const deletePost = id =>
  * @param {String} id
  */
 export const getCommentsByPost = id =>
-  fetch(`${api}/posts/${id}/comments`, { headers })
-    .then(res => res.json())
-    .then(data => data);
+  fetch(`${api}/posts/${id}/comments`, { headers }).then(res => res.json());
 
 /**
  * addComment
