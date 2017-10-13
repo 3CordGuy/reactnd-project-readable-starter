@@ -17,13 +17,13 @@ class App extends Component {
         <Route exact path="/add" render={props => <AddPost {...props} />} />
         <Route
           exact
-          path="/category/:category"
-          render={props => <PostList {...props} />}
+          path="/:category"
+          component={props => <PostList {...props} />}
         />
         <Route
           exact
           path="/:category/:postId"
-          render={props => <Post {...props} detailView={true} />}
+          component={props => <Post {...props} detailView={true} />}
         />
       </div>
     );
