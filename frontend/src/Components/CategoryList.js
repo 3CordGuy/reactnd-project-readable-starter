@@ -27,7 +27,7 @@ class CategoryList extends Component {
                 }
                 key={c.name}
               >
-                <Link to={`/${c.path}`}>{c.name}</Link>
+                <Link to={`/${c.path}`}>{c.name.toUpperCase()}</Link>
               </li>
             ))}
         </ul>
@@ -36,7 +36,7 @@ class CategoryList extends Component {
   }
 }
 
-function mapStateToProps({ categories }) {
+function mapStateToProps({ categories }, ownProps) {
   return {
     categories: categories.items
   };

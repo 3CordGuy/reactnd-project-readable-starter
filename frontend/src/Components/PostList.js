@@ -4,25 +4,24 @@ import Post from "./Post";
 import CategoryList from "./CategoryList";
 import sortBy from "sort-by";
 import { connect } from "react-redux";
-import { getPosts } from "../Actions/posts";
+import { getPosts, getCategoryPosts } from "../Actions/posts";
 
 class PostList extends Component {
   state = {
     sort: null
   };
   componentDidMount() {
-    // const { params } = this.props.match;
-    this.props.getPosts();
-    // this.props.subscribe(() => {
-    //   store.getState();
-    //   this.setState({
-    //     sort:
-    //   })
-    // });
+    const { params } = this.props.match;
+    if (params && params.category) {
+      this.props.getCategoryPosts(params.category);
+    } else {
+      this.props.getPosts();
+    }
   }
 
   render() {
-    const { posts, category, sort } = this.props;
+    const { posts, sort } = this.props;
+    const { category } = this.props.match.params;
     return (
       <div className="columns">
         <div className="column col-9">
@@ -40,17 +39,17 @@ class PostList extends Component {
   }
 }
 
-function mapStateToProps({ posts, sort, category }) {
+function mapStateToProps({ posts, sort }) {
   return {
     posts: posts.items,
-    sort,
-    category
+    sort
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getPosts: data => dispatch(getPosts(data))
+    getPosts: data => dispatch(getPosts(data)),
+    getCategoryPosts: data => dispatch(getCategoryPosts(data))
   };
 }
 
