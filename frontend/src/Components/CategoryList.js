@@ -1,27 +1,15 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import * as ReadableAPI from "../Util/readable-api";
+import { connect } from "react-redux";
+import { getCategories } from "../Actions/categories";
 
-export default class PostListItem extends Component {
-  state = {
-    categories: [],
-    loading: false
-  };
-
+class CategoryList extends Component {
   componentDidMount() {
-    // Start Spinner
-    this.setState({ loading: true });
-
-    ReadableAPI.getCategories().then(response => {
-      this.setState({
-        categories: response.categories,
-        loading: false
-      });
-    });
+    this.props.getCategories();
   }
 
   render() {
-    const { categories } = this.state;
+    const { categories } = this.props;
     return (
       <div className="column col-3">
         <ul className="nav">
@@ -33,11 +21,9 @@ export default class PostListItem extends Component {
             categories.map(c => (
               <li
                 className={
-                  this.props.selected === c.name ? (
-                    "nav-item active"
-                  ) : (
-                    "nav-item"
-                  )
+                  this.props.selected === c.name
+                    ? "nav-item active"
+                    : "nav-item"
                 }
                 key={c.name}
               >
@@ -49,3 +35,17 @@ export default class PostListItem extends Component {
     );
   }
 }
+
+function mapStateToProps({ categories }) {
+  return {
+    categories: categories.items
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getCategories: data => dispatch(getCategories(data))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);
