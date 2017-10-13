@@ -1,4 +1,5 @@
 import * as ReadableAPI from "../Util/readable-api";
+export const REQUEST_POSTS = "REQUEST_POSTS";
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
 export const RECEIVE_POST = "RECEIVE_POST";
 export const CREATE_POST = "CREATE_POST";
@@ -6,6 +7,12 @@ export const UPDATE_POST = "UPDATE_POST";
 export const DELETE_POST = "DELETE_POST";
 export const UP_VOTE_POST = "UP_VOTE_POST";
 export const DOWN_VOTE_POST = "DOWN_VOTE_POST";
+
+export const requestPosts = () => {
+  return {
+    type: REQUEST_POSTS
+  };
+};
 
 export const receivePosts = posts => {
   return {
@@ -63,19 +70,26 @@ export const votePostDown = post => {
   };
 };
 
-export const getPosts = () => dispatch =>
+export const getPosts = () => dispatch => {
+  dispatch(requestPosts());
   ReadableAPI.getPosts().then(posts => dispatch(receivePosts(posts)));
+};
 
-export const getPost = () => dispatch =>
+export const getPost = () => dispatch => {
+  dispatch(requestPosts());
   ReadableAPI.getPostDetails().then(post => dispatch(receivePost(post)));
+};
 
-export const getCategoryPosts = category => dispatch =>
+export const getCategoryPosts = category => dispatch => {
+  dispatch(requestPosts());
   ReadableAPI.getPostsByCategory(category).then(posts =>
     dispatch(receivePosts(posts))
   );
+};
 
-export const addPost = post => dispatch =>
-  ReadableAPI.addPost(post).then(post => dispatch(createPost(post)));
+export const addPost = post => dispatch => {
+  dispatch(createPost(post));
+};
 
 export const editPost = post => dispatch =>
   ReadableAPI.updatePost(post).then(post => dispatch(updatePost(post)));

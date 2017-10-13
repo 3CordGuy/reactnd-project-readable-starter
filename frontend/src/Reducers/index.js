@@ -6,7 +6,8 @@ import {
   UPDATE_POST,
   DELETE_POST,
   UP_VOTE_POST,
-  DOWN_VOTE_POST
+  DOWN_VOTE_POST,
+  REQUEST_POSTS
 } from "../Actions/posts";
 import {
   RECEIVE_COMMENTS,
@@ -16,73 +17,81 @@ import {
   UP_VOTE_COMMENT,
   DOWN_VOTE_COMMENT
 } from "../Actions/comments";
-import { RECEIVE_CATEGORIES } from "../Actions/categories";
+import { REQUEST_CATEGORIES, RECEIVE_CATEGORIES } from "../Actions/categories";
 import { SORT_POSTS } from "../Actions/sort";
 
-function posts(state = {}, action) {
+function posts(state = { items: [], isFetching: false }, action) {
   switch (action.type) {
+    case REQUEST_POSTS: {
+      return {
+        ...state,
+        isFetching: true
+      };
+    }
+
     case RECEIVE_POSTS: {
       const { posts } = action;
 
       return {
         ...state,
-        posts: posts.filter(post => !post.deleted)
+        items: posts.filter(post => !post.deleted),
+        isFetching: false
       };
     }
 
     case RECEIVE_POST: {
       const { post } = action;
-      const posts = [...state, post];
+      const items = [...state, post];
       return {
         ...state,
-        posts
+        items,
+        isFetching: false
       };
     }
 
     case CREATE_POST: {
       const { post } = action;
-      const posts = [...state, post];
+      const items = [...state, post];
       return {
         ...state,
-        posts
+        items,
+        isFetching: false
       };
     }
 
     case UPDATE_POST: {
-      const { post } = action;
-      const posts = state.posts.reduce((postArr, curPost) => {
-        if (post.id === curPost.id) {
-          [...posts, curPost];
-        }
-      }, []);
+      const items = state.items.map(
+        curPost => (curPost.id === action.post.id ? action.post : curPost)
+      );
+
       return {
         ...state,
-        posts
+        items,
+        isFetching: false
       };
     }
 
     case DELETE_POST: {
       const { postId } = action;
-      const posts = state.posts.filter(post => post !== postId);
+      const items = state.items.filter(post => post !== postId);
 
       return {
         ...state,
-        posts
+        items,
+        isFetching: false
       };
     }
 
     case DOWN_VOTE_POST:
-
     case UP_VOTE_POST:
-      const { post } = action;
-      const posts = state.posts.reduce((postArr, curPost) => {
-        if (post.id === curPost.id) {
-          [...posts, curPost];
-        }
-      }, []);
+      const items = state.items.map(
+        curPost => (curPost.id === action.post.id ? action.post : curPost)
+      );
+
       return {
         ...state,
-        posts
+        items,
+        isFetching: false
       };
 
     default:
@@ -90,13 +99,21 @@ function posts(state = {}, action) {
   }
 }
 
-function categories(state = {}, action) {
+function categories(state = { items: [], isFetching: false }, action) {
   switch (action.type) {
-    case RECEIVE_CATEGORIES:
-      const { category } = action;
+    case REQUEST_CATEGORIES: {
       return {
         ...state,
-        categories
+        isFetching: true
+      };
+    }
+    case RECEIVE_CATEGORIES:
+      const { categories } = action;
+      const items = [...state, ...categories];
+      return {
+        ...state,
+        items,
+        isFetching: false
       };
     default:
       return state;
