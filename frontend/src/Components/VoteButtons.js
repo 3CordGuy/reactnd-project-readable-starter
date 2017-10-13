@@ -11,10 +11,11 @@ class VoteButtons extends Component {
     const {
       score,
       kind,
-      votePost,
-      voteComment,
-      postId,
-      commentId
+      upVotePost,
+      downVotePost,
+      // voteComment,
+      postId
+      // commentId
     } = this.props;
 
     return (

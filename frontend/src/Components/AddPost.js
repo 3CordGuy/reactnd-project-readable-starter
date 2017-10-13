@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import * as ReadableAPI from "../Util/readable-api";
 import uuid from "js-uuid";
+import { connect } from "react-redux";
+import { addPost, removePost } from "../Actions/posts";
+import { getCategories } from "../Actions/categories";
 // import { Link } from "react-router-dom";
 
-export default class AddPost extends Component {
+class AddPost extends Component {
   state = {
-    loading: false,
-    categories: [],
+    error: "",
     title: "",
     body: "",
     author: "",
@@ -14,7 +16,6 @@ export default class AddPost extends Component {
   };
 
   handleSubmit = e => {
-    this.setState({ loading: true });
     const { title, body, author, category } = this.state;
     const POST = {
       timestamp: Date.now(),
@@ -25,13 +26,16 @@ export default class AddPost extends Component {
       category
     };
 
-    ReadableAPI.addPost(POST).then(response => {
-      this.props.history.goBack();
-      this.setState({
-        loading: false
-      });
+    ReadableAPI.addPost(POST).then(res => {
+      console.log(res);
+      if (res && res.id) {
+        this.props.addPost(POST);
+        this.props.history.goBack();
+      } else {
+        this.props.removePost(POST.id);
+        this.setState({ error: "Trouble Saving Post! Try again later..." });
+      }
     });
-
     e.preventDefault();
   };
 
@@ -39,26 +43,38 @@ export default class AddPost extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  componentDidMount() {
-    // Start Spinner
-    this.setState({ loading: true });
+  clearError = e => {
+    this.setState({ error: "" });
+    e.preventDefault();
+  };
 
-    ReadableAPI.getCategories().then(response => {
-      this.setState({
-        categories: response.categories,
-        loading: false
-      });
-    });
+  componentDidMount() {
+    this.props.getCategories();
   }
+
   render() {
     const { goBack } = this.props.history;
-    const { categories, loading } = this.state;
+    const { categories, posts } = this.props;
+    const { error } = this.state;
 
     return (
       <form className="container" onSubmit={this.handleSubmit}>
+        {error && (
+          <div className="col-12 mt-2">
+            <div className="toast toast-error m-2">
+              <button
+                className="btn btn-clear float-right"
+                onClick={this.clearError}
+              />
+              {error}
+            </div>
+          </div>
+        )}
         <h4>Add New Post</h4>
         <div className="rounded p-2 bg-secondary">
-          <fieldset disabled={loading && "disabled"}>
+          <fieldset
+            disabled={categories.isFetching || (posts.isFetching && "disabled")}
+          >
             <div className="column col-6">
               <div className="form-group">
                 <label className="form-label" htmlFor="author-name">
@@ -82,8 +98,7 @@ export default class AddPost extends Component {
                   onChange={this.handleChange}
                 >
                   <option value="">Select Category</option>
-                  {categories &&
-                    categories.length &&
+                  {categories.length > 0 &&
                     categories.map(c => (
                       <option key={c.name} value={c.name}>
                         {c.name}
@@ -141,3 +156,20 @@ export default class AddPost extends Component {
     );
   }
 }
+
+function mapStateToProps({ categories, posts }) {
+  return {
+    categories: categories.items,
+    posts
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addPost: data => dispatch(addPost(data)),
+    removePost: data => dispatch(removePost(data)),
+    getCategories: data => dispatch(getCategories(data))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddPost);

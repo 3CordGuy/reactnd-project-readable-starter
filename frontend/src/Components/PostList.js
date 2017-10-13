@@ -11,7 +11,7 @@ class PostList extends Component {
     sort: null
   };
   componentDidMount() {
-    const { params } = this.props.match;
+    // const { params } = this.props.match;
     this.props.getPosts();
     // this.props.subscribe(() => {
     //   store.getState();
@@ -42,7 +42,7 @@ class PostList extends Component {
 
 function mapStateToProps({ posts, sort, category }) {
   return {
-    posts: posts.posts,
+    posts: posts.items,
     sort,
     category
   };

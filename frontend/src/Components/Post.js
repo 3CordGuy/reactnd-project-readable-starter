@@ -15,13 +15,13 @@ class Post extends Component {
     const reduxPostId = posts && posts.length && posts[0].id;
     const routePostId = match && match.params && match.params.postId;
 
-    // if (reduxPostId) {
-    //   console.log("getting comments");
-    //   getComments(reduxPostId);
-    // } else {
-    //   console.log("getting post details");
-    //   getPost(routePostId);
-    // }
+    if (reduxPostId) {
+      console.log("getting comments");
+      getComments(reduxPostId);
+    } else {
+      console.log("getting post details");
+      getPost(routePostId);
+    }
   }
 
   render() {
@@ -95,14 +95,14 @@ class Post extends Component {
 function mapStateToProps({ comments, posts }, ownProps) {
   const postId = ownProps.postId || ownProps.match.params.postId;
   return {
-    // comments: comments && comments.filter(comment => comment.parentId === postId),
-    posts: posts.posts.filter(post => post.id === postId)
+    comments: comments[postId],
+    posts: posts.items.filter(post => post.id === postId)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    // getComments: data => dispatch(getPostComments(data)),
+    getComments: data => dispatch(getComments(data)),
     getPost: data => dispatch(getPost(data))
   };
 }
