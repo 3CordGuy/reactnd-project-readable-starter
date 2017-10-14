@@ -16,10 +16,8 @@ class Post extends Component {
     const routePostId = match && match.params && match.params.postId;
 
     if (reduxPostId) {
-      console.log("getting comments");
       getComments(reduxPostId);
     } else {
-      console.log("getting post details");
       getPost(routePostId);
     }
   }
