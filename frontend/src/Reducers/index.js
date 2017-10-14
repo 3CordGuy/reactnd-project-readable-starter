@@ -19,6 +19,7 @@ import {
 } from "../Actions/comments";
 import { REQUEST_CATEGORIES, RECEIVE_CATEGORIES } from "../Actions/categories";
 import { SORT_POSTS } from "../Actions/sort";
+import { OPEN_MODAL, CLOSE_MODAL } from "../Actions/modal";
 
 function posts(state = { items: [], isFetching: false }, action) {
   switch (action.type) {
@@ -120,16 +121,33 @@ function categories(state = { items: [], isFetching: false }, action) {
   }
 }
 
-function sort(state = { sort: "-voteScore" }, action) {
+function sort(state = "-voteScore", action) {
   switch (action.type) {
     case SORT_POSTS:
       const { sort } = action;
       return sort;
     default:
+      return state;
+  }
+}
+
+function modal(state = { isOpen: false, postId: null }, action) {
+  switch (action.type) {
+    case OPEN_MODAL:
+      const { postId } = action;
       return {
         ...state,
-        sort
+        isOpen: true,
+        postId
       };
+    case CLOSE_MODAL:
+      return {
+        ...state,
+        isOpen: false,
+        postId: null
+      };
+    default:
+      return state;
   }
 }
 
@@ -153,5 +171,6 @@ export default combineReducers({
   posts,
   comments,
   categories,
-  sort
+  sort,
+  modal
 });
