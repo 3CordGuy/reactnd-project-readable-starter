@@ -31,7 +31,7 @@ class Post extends Component {
     return (
       <div>
         {post && (
-          <div className="card m-2">
+          <div className="card bg-gray m-2">
             <div className="card-header">
               <div>
                 {detailView && (
@@ -65,7 +65,8 @@ class Post extends Component {
                 )}
               </div>
               <div className="card-subtitle text-gray">
-                Submitted {moment(post.timestamp).fromNow()} by{" "}
+                Submitted {moment(post.timestamp).fromNow()} on{" "}
+                {moment(post.timestamp).format("MMM Do, YYYY [at] hh:mm a")} by{" "}
                 <span className="text-bold">{post.author}</span>
               </div>
               <Link className="chip" to={`/${post.category}`}>
