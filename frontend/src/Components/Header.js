@@ -18,7 +18,7 @@ class Header extends Component {
             <SortDropdown />
             <button
               className="btn btn-primary input-group-btn"
-              onClick={this.props.openModal}
+              onClick={() => this.props.openModal({ context: "post" })}
             >
               <i className="icon icon-plus" /> Create Post
             </button>
@@ -37,7 +37,7 @@ function mapStateToProps({ modal }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    openModal: data => dispatch(openModal())
+    openModal: data => dispatch(openModal(data))
   };
 }
 

@@ -44,15 +44,8 @@ export const updatePost = post => {
 
 export const deletePost = postId => {
   return {
-    type: UPDATE_POST,
-    postId
-  };
-};
-
-export const votePost = post => {
-  return {
     type: DELETE_POST,
-    post
+    postId
   };
 };
 
@@ -94,8 +87,9 @@ export const addPost = post => dispatch => {
 export const editPost = post => dispatch =>
   ReadableAPI.updatePost(post).then(post => dispatch(updatePost(post)));
 
-export const removePost = postId => dispatch =>
-  ReadableAPI.deletePost(postId).then(post => dispatch(deletePost(postId)));
+export const removePost = postId => dispatch => {
+  ReadableAPI.deletePost(postId).then(res => dispatch(deletePost(postId)));
+};
 
 export const upVotePost = postId => dispatch =>
   ReadableAPI.votePost(postId, "upVote").then(post =>

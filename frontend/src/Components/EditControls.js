@@ -23,7 +23,7 @@ export default class PostControls extends Component {
     const {
       isPrimary = false,
       label = "POST CONTROLS",
-      onEditHandler,
+      // onEditHandler,
       onDeleteHandler
     } = this.props;
     return (

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import * as ReadableAPI from "../Util/readable-api";
 import CommentSection from "./CommentSection";
 import { Link } from "react-router-dom";
 import VoteButtons from "./VoteButtons";
@@ -8,6 +7,7 @@ import { connect } from "react-redux";
 import { getPost, removePost } from "../Actions/posts";
 import { getComments } from "../Actions/comments";
 import moment from "moment";
+import { withRouter } from "react-router";
 
 class Post extends Component {
   componentDidMount() {
@@ -23,7 +23,7 @@ class Post extends Component {
   }
 
   render() {
-    const { posts, detailView, comments, removePost } = this.props;
+    const { posts, detailView, comments } = this.props;
     const post = posts.length && posts[0];
 
     return (
@@ -38,7 +38,10 @@ class Post extends Component {
                       isPrimary={true}
                       label="POST CONTROLS"
                       onEditHandler={() => console.log("Clicked Edit Post")}
-                      onDeleteHandler={() => removePost(post.id)}
+                      onDeleteHandler={() => {
+                        this.props.removePost(post.id);
+                        this.props.history.push("/");
+                      }}
                     />
                   </span>
                 )}
@@ -107,4 +110,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Post));
