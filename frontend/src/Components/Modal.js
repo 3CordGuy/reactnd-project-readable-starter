@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { addPost, removePost } from "../Actions/posts";
 import { closeModal } from "../Actions/modal";
 import { getCategories } from "../Actions/categories";
+import { withRouter } from "react-router";
 
 class Modal extends Component {
   state = {
@@ -29,7 +30,15 @@ class Modal extends Component {
     ReadableAPI.addPost(POST).then(res => {
       if (res && res.id) {
         this.props.addPost(POST);
+        this.setState({
+          error: "",
+          title: "",
+          body: "",
+          author: "",
+          category: ""
+        });
         this.props.closeModal();
+        this.props.history.push(`/${POST.category}/${POST.id}`);
       } else {
         this.props.removePost(POST.id);
         this.setState({ error: "Trouble Saving Post! Try again later..." });
@@ -189,4 +198,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Modal);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Modal));
