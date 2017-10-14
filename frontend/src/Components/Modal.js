@@ -52,8 +52,7 @@ class Modal extends Component {
   }
 
   render() {
-    const { categories, posts, modal, handleSubmit } = this.props;
-    console.log(this.props);
+    const { categories, posts, modal } = this.props;
     const { error } = this.state;
 
     return (

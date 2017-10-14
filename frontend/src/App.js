@@ -3,7 +3,6 @@ import { Route } from "react-router-dom";
 import Header from "./Components/Header";
 import PostList from "./Components/PostList";
 import Post from "./Components/Post";
-import AddPost from "./Components/AddPost";
 import Modal from "./Components/Modal";
 import "./App.css";
 import "spectre.css/dist/spectre.min.css";
