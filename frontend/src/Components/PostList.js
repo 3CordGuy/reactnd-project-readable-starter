@@ -5,6 +5,7 @@ import CategoryList from "./CategoryList";
 import NoPost from "./NoPost";
 import sortBy from "sort-by";
 import { connect } from "react-redux";
+import { openModal } from "../Actions/modal";
 import { getPosts, getCategoryPosts } from "../Actions/posts";
 
 class PostList extends Component {
@@ -33,7 +34,7 @@ class PostList extends Component {
                 <Post key={post.id} postId={post.id} detailView={false} />
               ))
           ) : (
-            <NoPost category={category} />
+            <NoPost category={category} onOpenModal={this.props.openModal} />
           )}
         </div>
         <CategoryList selected={category} />
@@ -52,7 +53,8 @@ function mapStateToProps({ posts, sort }) {
 function mapDispatchToProps(dispatch) {
   return {
     getPosts: data => dispatch(getPosts(data)),
-    getCategoryPosts: data => dispatch(getCategoryPosts(data))
+    getCategoryPosts: data => dispatch(getCategoryPosts(data)),
+    openModal: data => dispatch(openModal(data))
   };
 }
 
