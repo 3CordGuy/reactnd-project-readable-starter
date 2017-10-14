@@ -75,9 +75,9 @@ export const getPosts = () => dispatch => {
   ReadableAPI.getPosts().then(posts => dispatch(receivePosts(posts)));
 };
 
-export const getPost = () => dispatch => {
+export const getPost = postId => dispatch => {
   dispatch(requestPosts());
-  ReadableAPI.getPostDetails().then(post => dispatch(receivePost(post)));
+  ReadableAPI.getPostDetails(postId).then(post => dispatch(receivePost(post)));
 };
 
 export const getCategoryPosts = category => dispatch => {
