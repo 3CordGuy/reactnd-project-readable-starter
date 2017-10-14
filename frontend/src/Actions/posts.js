@@ -88,7 +88,7 @@ export const getCategoryPosts = category => dispatch => {
 };
 
 export const addPost = post => dispatch => {
-  dispatch(createPost(post));
+  ReadableAPI.addPost(post).then(res => dispatch(createPost(post)));
 };
 
 export const editPost = post => dispatch =>

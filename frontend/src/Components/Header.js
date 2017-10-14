@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import SortDropdown from "./SortDropdown";
+import { connect } from "react-redux";
+import { openModal } from "../Actions/modal";
 
-export default class Header extends Component {
+class Header extends Component {
   render() {
     return (
       <div>
@@ -14,12 +16,29 @@ export default class Header extends Component {
           </section>
           <section className="navbar-section">
             <SortDropdown />
-            <Link className="btn btn-primary input-group-btn" to="/add">
+            <button
+              className="btn btn-primary input-group-btn"
+              onClick={this.props.openModal}
+            >
               <i className="icon icon-plus" /> Create Post
-            </Link>
+            </button>
           </section>
         </header>
       </div>
     );
   }
 }
+
+function mapStateToProps({ modal }) {
+  return {
+    modal
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    openModal: data => dispatch(openModal())
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
