@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import * as ReadableAPI from "../Util/readable-api";
 import uuid from "js-uuid";
 import { connect } from "react-redux";
 import { addPost, removePost } from "../Actions/posts";
@@ -16,7 +15,28 @@ class Modal extends Component {
     category: ""
   };
 
+  checkInvalidFields = () => {
+    // TODO: Better Form Validation
+    const err = [];
+    if (this.props.modal.context === "post") {
+      for (let field in this.state) {
+        if (field !== "error" && !this.state[field]) {
+          err.push(field);
+        }
+      }
+    }
+    return err;
+  };
+
   handleSubmit = e => {
+    const invalidFields = this.checkInvalidFields();
+    if (invalidFields && invalidFields.length > 0) {
+      this.setState({
+        error: `Please check missing fields: ${invalidFields.join(", ")}`
+      });
+      return;
+    }
+
     const { title, body, author, category } = this.state;
     const POST = {
       timestamp: Date.now(),
@@ -38,8 +58,20 @@ class Modal extends Component {
   };
 
   clearError = e => {
-    this.setState({ error: "" });
+    this.setState({
+      error: ""
+    });
     e.preventDefault();
+  };
+
+  resetState = () => {
+    this.setState({
+      error: "",
+      title: "",
+      author: "",
+      body: "",
+      category: ""
+    });
   };
 
   componentDidMount() {
