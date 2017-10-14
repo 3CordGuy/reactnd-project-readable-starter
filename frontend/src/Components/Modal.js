@@ -27,23 +27,9 @@ class Modal extends Component {
       category
     };
 
-    ReadableAPI.addPost(POST).then(res => {
-      if (res && res.id) {
-        this.setState({
-          error: "",
-          title: "",
-          body: "",
-          author: "",
-          category: ""
-        });
-        this.props.addPost(POST);
-        this.props.closeModal();
-        this.props.history.push(`/${POST.category}/${POST.id}`);
-      } else {
-        this.props.removePost(POST.id);
-        this.setState({ error: "Trouble Saving Post! Try again later..." });
-      }
-    });
+    this.props.addPost(POST);
+    this.props.closeModal();
+    this.props.history.push(`/${POST.category}/${POST.id}`);
     e.preventDefault();
   };
 

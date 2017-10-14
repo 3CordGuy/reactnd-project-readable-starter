@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import VoteButtons from "./VoteButtons";
 import EditControls from "./EditControls";
 import { connect } from "react-redux";
-import { getPost } from "../Actions/posts";
+import { getPost, removePost } from "../Actions/posts";
 import { getComments } from "../Actions/comments";
 import moment from "moment";
 
@@ -23,7 +23,7 @@ class Post extends Component {
   }
 
   render() {
-    const { posts, detailView, comments } = this.props;
+    const { posts, detailView, comments, removePost } = this.props;
     const post = posts.length && posts[0];
 
     return (
@@ -38,7 +38,7 @@ class Post extends Component {
                       isPrimary={true}
                       label="POST CONTROLS"
                       onEditHandler={() => console.log("Clicked Edit Post")}
-                      onDeleteHandler={() => console.log("Clicked Delete Post")}
+                      onDeleteHandler={() => removePost(post.id)}
                     />
                   </span>
                 )}
@@ -102,7 +102,8 @@ function mapStateToProps({ comments, posts }, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     getComments: data => dispatch(getComments(data)),
-    getPost: data => dispatch(getPost(data))
+    getPost: data => dispatch(getPost(data)),
+    removePost: data => dispatch(removePost(data))
   };
 }
 
