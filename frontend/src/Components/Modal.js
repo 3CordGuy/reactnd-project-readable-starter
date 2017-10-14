@@ -29,7 +29,6 @@ class Modal extends Component {
 
     ReadableAPI.addPost(POST).then(res => {
       if (res && res.id) {
-        this.props.addPost(POST);
         this.setState({
           error: "",
           title: "",
@@ -37,6 +36,7 @@ class Modal extends Component {
           author: "",
           category: ""
         });
+        this.props.addPost(POST);
         this.props.closeModal();
         this.props.history.push(`/${POST.category}/${POST.id}`);
       } else {
@@ -91,6 +91,7 @@ class Modal extends Component {
                           id="author-name"
                           name="author"
                           placeholder="Your Name"
+                          value={this.state.author}
                           onChange={this.handleChange}
                         />
                       </div>
@@ -104,6 +105,7 @@ class Modal extends Component {
                           className="form-select"
                           name="category"
                           id="category-select"
+                          value={this.state.category}
                           onChange={this.handleChange}
                         >
                           <option value="">Select Category</option>
@@ -127,6 +129,7 @@ class Modal extends Component {
                           name="title"
                           id="title-field"
                           placeholder="Post Title"
+                          value={this.state.title}
                           onChange={this.handleChange}
                         />
                       </div>
@@ -140,6 +143,7 @@ class Modal extends Component {
                           id="comment-text"
                           placeholder="Type it here..."
                           rows="3"
+                          value={this.state.body}
                           onChange={this.handleChange}
                         />
                       </div>
