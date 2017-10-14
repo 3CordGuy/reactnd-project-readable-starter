@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import * as ReadableAPI from "../Util/readable-api";
 import Post from "./Post";
 import CategoryList from "./CategoryList";
+import NoPost from "./NoPost";
 import sortBy from "sort-by";
 import { connect } from "react-redux";
 import { getPosts, getCategoryPosts } from "../Actions/posts";
@@ -25,13 +26,15 @@ class PostList extends Component {
     return (
       <div className="columns">
         <div className="column col-9">
-          {posts &&
-            posts.length > 0 &&
+          {posts && posts.length > 0 ? (
             posts
               .sort(sortBy(sort))
               .map(post => (
                 <Post key={post.id} postId={post.id} detailView={false} />
-              ))}
+              ))
+          ) : (
+            <NoPost category={category} />
+          )}
         </div>
         <CategoryList selected={category} />
       </div>
