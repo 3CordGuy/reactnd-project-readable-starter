@@ -131,20 +131,22 @@ function sort(state = "-voteScore", action) {
   }
 }
 
-function modal(state = { isOpen: false, postId: null }, action) {
+function modal(state = { isOpen: false, context: null, id: null }, action) {
   switch (action.type) {
     case OPEN_MODAL:
-      const { postId } = action;
+      const { id, context } = action;
       return {
         ...state,
         isOpen: true,
-        postId
+        context,
+        id
       };
     case CLOSE_MODAL:
       return {
         ...state,
         isOpen: false,
-        postId: null
+        context: null,
+        id: null
       };
     default:
       return state;
@@ -157,7 +159,9 @@ function comments(state = {}, action) {
       const { comments, postId } = action;
       return {
         ...state,
-        [postId]: comments.filter(comment => comment.deleted !== true)
+        [postId]: comments.filter(
+          comment => comment.deleted !== true && comment.parentDeleted !== true
+        )
       };
 
     // TODO: ADD MORE REDUCER CASES FOR COMMENTS
