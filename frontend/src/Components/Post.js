@@ -77,9 +77,7 @@ class Post extends Component {
             <div>
               <div className="card-body">{detailView && post.body}</div>
               <div className="card-footer">
-                {detailView ? (
-                  <CommentSection postId={post.id} />
-                ) : (
+                {!detailView && (
                   <div className="label m-1">
                     <i className="icon icon-message" />{" "}
                     {comments && comments.length} Comments
@@ -89,6 +87,9 @@ class Post extends Component {
             </div>
           </div>
         )}
+        <div className="container">
+          {detailView && <CommentSection postId={post.id} />}
+        </div>
       </div>
     );
   }
