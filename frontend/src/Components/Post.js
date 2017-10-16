@@ -12,13 +12,15 @@ import { withRouter } from "react-router";
 class Post extends Component {
   componentDidMount() {
     const { getComments, getPost, posts, match } = this.props;
-    const reduxPostId = posts && posts.length && posts[0].id;
+    const reduxPost = posts && posts.length && posts[0];
     const routePostId = match && match.params && match.params.postId;
+    console.log("REDUX", reduxPost, "ROUTE", routePostId);
 
-    if (reduxPostId) {
-      getComments(reduxPostId);
+    if (reduxPost && reduxPost.id) {
+      getComments(reduxPost.id);
     } else {
       getPost(routePostId);
+      getComments(routePostId);
     }
   }
 
@@ -88,7 +90,9 @@ class Post extends Component {
           </div>
         )}
         <div className="container">
-          {detailView && <CommentSection postId={post.id} />}
+          {detailView && (
+            <CommentSection postId={post.id} comments={comments} />
+          )}
         </div>
       </div>
     );
