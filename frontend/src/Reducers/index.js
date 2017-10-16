@@ -108,7 +108,7 @@ function categories(state = { items: [], isFetching: false }, action) {
         isFetching: true
       };
     }
-    case RECEIVE_CATEGORIES:
+    case RECEIVE_CATEGORIES: {
       const { categories } = action;
       const items = [...state, ...categories];
       return {
@@ -116,6 +116,7 @@ function categories(state = { items: [], isFetching: false }, action) {
         items,
         isFetching: false
       };
+    }
     default:
       return state;
   }
@@ -123,9 +124,11 @@ function categories(state = { items: [], isFetching: false }, action) {
 
 function sort(state = "-voteScore", action) {
   switch (action.type) {
-    case SORT_POSTS:
+    case SORT_POSTS: {
       const { sort } = action;
       return sort;
+    }
+
     default:
       return state;
   }
@@ -133,7 +136,7 @@ function sort(state = "-voteScore", action) {
 
 function modal(state = { isOpen: false, context: null, id: null }, action) {
   switch (action.type) {
-    case OPEN_MODAL:
+    case OPEN_MODAL: {
       const { id, context } = action;
       return {
         ...state,
@@ -141,13 +144,17 @@ function modal(state = { isOpen: false, context: null, id: null }, action) {
         context,
         id
       };
-    case CLOSE_MODAL:
+    }
+
+    case CLOSE_MODAL: {
       return {
         ...state,
         isOpen: false,
         context: null,
         id: null
       };
+    }
+
     default:
       return state;
   }
@@ -155,16 +162,43 @@ function modal(state = { isOpen: false, context: null, id: null }, action) {
 
 function comments(state = {}, action) {
   switch (action.type) {
-    case RECEIVE_COMMENTS:
+    case RECEIVE_COMMENTS: {
       const { comments, postId } = action;
+
       return {
         ...state,
         [postId]: comments.filter(
           comment => comment.deleted !== true && comment.parentDeleted !== true
         )
       };
+    }
 
-    // TODO: ADD MORE REDUCER CASES FOR COMMENTS
+    case DELETE_COMMENT: {
+      const { comment } = action;
+      const comments = state[comment.parentId].filter(
+        existing => comment.id !== existing.id
+      );
+
+      return {
+        ...state,
+        [comment.parentId]: [...comments]
+      };
+    }
+
+    case CREATE_COMMENT: {
+      const { comment } = action;
+      const existing = state[comment.parentId];
+      let postComments = [comment];
+
+      if (existing) {
+        postComments = [...existing];
+      }
+
+      return {
+        ...state,
+        [comment.parentId]: postComments
+      };
+    }
 
     default:
       return state;
