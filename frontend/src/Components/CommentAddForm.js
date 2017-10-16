@@ -1,16 +1,15 @@
 import React, { Component } from "react";
-import * as ReadableAPI from "../Util/readable-api";
+import { connect } from "react-redux";
 import uuid from "js-uuid";
+import { addComment } from "../Actions/comments";
 
-export default class CommentAddForm extends Component {
+class CommentAddForm extends Component {
   state = {
     body: "",
-    author: "",
-    loading: false
+    author: ""
   };
 
   handleSubmit = e => {
-    this.setState({ loading: true });
     const { body, author } = this.state;
     const COMMENT = {
       timestamp: Date.now(),
@@ -20,13 +19,8 @@ export default class CommentAddForm extends Component {
       parentId: this.props.postId
     };
 
-    ReadableAPI.addComment(COMMENT).then(response => {
-      this.setState({
-        loading: false,
-        body: "",
-        author: ""
-      });
-    });
+    this.props.addComment(COMMENT);
+    this.setState({ body: "", author: "" });
 
     e.preventDefault();
   };
@@ -73,10 +67,26 @@ export default class CommentAddForm extends Component {
             />
           </div>
         </fieldset>
-        <button className="btn btn-primary" type="submit">
+        <button
+          className={`btn btn-primary ${(!this.state.body && "disabled") ||
+            (!this.state.author && "disabled")}`}
+          type="submit"
+        >
           Submit
         </button>
       </form>
     );
   }
 }
+
+function mapStateToProps() {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addComment: data => dispatch(addComment(data))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentAddForm);

@@ -22,9 +22,9 @@ export const updateComment = comment => ({
   comment
 });
 
-export const deleteComment = commentId => ({
+export const deleteComment = comment => ({
   type: DELETE_COMMENT,
-  commentId
+  comment
 });
 
 export const voteCommentUp = comment => ({
@@ -43,18 +43,19 @@ export const getComments = postId => dispatch =>
   );
 
 export const addComment = comment => dispatch =>
-  ReadableAPI.addComment(comment).then(result =>
-    dispatch(createComment(comment))
-  );
+  ReadableAPI.addComment(comment).then(result => {
+    dispatch(createComment(comment));
+    dispatch(getComments(comment.parentId));
+  });
 
 export const editComment = comment => dispatch =>
   ReadableAPI.updateComment(comment).then(result =>
     dispatch(updateComment(comment))
   );
 
-export const removeComment = commentId => dispatch =>
-  ReadableAPI.deleteComment(commentId).then(result =>
-    dispatch(deleteComment(commentId))
+export const removeComment = comment => dispatch =>
+  ReadableAPI.deleteComment(comment.id).then(result =>
+    dispatch(deleteComment(comment))
   );
 
 export const upVoteComment = commentId => dispatch =>

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-// import { Link } from "react-router-dom";
 import VoteButtons from "./VoteButtons";
 import EditControls from "./EditControls";
+import { connect } from "react-redux";
+import { removeComment } from "../Actions/comments";
 import moment from "moment";
 
-export default class PostListItem extends Component {
+class Comment extends Component {
   render() {
     const { comment } = this.props;
     return (
@@ -22,7 +23,7 @@ export default class PostListItem extends Component {
           <EditControls
             label="COMMENT CONTROLS"
             onEditHandler={() => console.log("Clicked Edit Comment")}
-            onDeleteHandler={() => console.log("Clicked Delete Comment")}
+            onDeleteHandler={() => this.props.removeComment(comment)}
           />
           <p className="tile-title">
             <span className="text-bold">{comment.author}</span> posted{" "}
@@ -38,3 +39,14 @@ export default class PostListItem extends Component {
     );
   }
 }
+function mapStateToProps() {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    removeComment: data => dispatch(removeComment(data))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comment);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export default class PostControls extends Component {
+export default class EditControls extends Component {
   state = {
     showConfirm: false
   };
@@ -23,7 +23,7 @@ export default class PostControls extends Component {
     const {
       isPrimary = false,
       label = "POST CONTROLS",
-      // onEditHandler,
+      onEditHandler,
       onDeleteHandler
     } = this.props;
     return (
@@ -55,7 +55,7 @@ export default class PostControls extends Component {
             <ul className="menu">
               <li className="divider" data-content={label} />
               <li className="menu-item">
-                <a className="c-hand" onClick={this.onEditHandler}>
+                <a className="c-hand" onClick={onEditHandler}>
                   Edit
                 </a>
               </li>
