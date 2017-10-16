@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import uuid from "js-uuid";
 import { connect } from "react-redux";
 import { addPost, removePost } from "../Actions/posts";
+// import { updateComment } from "../Actions/comments";
 import { closeModal } from "../Actions/modal";
 import { getCategories } from "../Actions/categories";
 import { withRouter } from "react-router";
@@ -16,7 +17,6 @@ class Modal extends Component {
   };
 
   checkInvalidFields = () => {
-    // TODO: Better Form Validation
     const err = [];
     if (this.props.modal.context === "post") {
       for (let field in this.state) {
@@ -47,6 +47,8 @@ class Modal extends Component {
       category
     };
 
+    this.resetState();
+
     this.props.addPost(POST);
     this.props.closeModal();
     this.props.history.push(`/${POST.category}/${POST.id}`);
@@ -75,6 +77,8 @@ class Modal extends Component {
   };
 
   componentDidMount() {
+    if (this.props.context === "post") {
+    }
     this.props.getCategories();
   }
 
