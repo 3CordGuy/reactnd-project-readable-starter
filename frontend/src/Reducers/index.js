@@ -84,7 +84,7 @@ function posts(state = { items: [], isFetching: false }, action) {
     }
 
     case DOWN_VOTE_POST:
-    case UP_VOTE_POST:
+    case UP_VOTE_POST: {
       const items = state.items.map(
         curPost => (curPost.id === action.post.id ? action.post : curPost)
       );
@@ -94,6 +94,7 @@ function posts(state = { items: [], isFetching: false }, action) {
         items,
         isFetching: false
       };
+    }
 
     default:
       return state;
