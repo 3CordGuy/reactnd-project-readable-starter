@@ -126,7 +126,7 @@ export const getCommentDetails = id =>
   fetch(`${api}/comments/${id}`, { headers }).then(res => res.json());
 
 /**
- * votePost
+ * voteComment
  * @param {String} commentId
  * @param {String} vote either "upVote" or "downVote"
  */
@@ -137,7 +137,7 @@ export const voteComment = (commentId, vote) =>
       ...headers,
       "Content-Type": "application/json"
     },
-    body: vote
+    body: JSON.stringify({ option: vote })
   }).then(res => res.json());
 
 /**

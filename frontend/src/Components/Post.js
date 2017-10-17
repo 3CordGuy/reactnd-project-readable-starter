@@ -4,7 +4,12 @@ import { Link } from "react-router-dom";
 import VoteButtons from "./VoteButtons";
 import EditControls from "./EditControls";
 import { connect } from "react-redux";
-import { getPost, removePost } from "../Actions/posts";
+import {
+  getPost,
+  removePost,
+  upVotePost,
+  downVotePost
+} from "../Actions/posts";
 import { getComments } from "../Actions/comments";
 import moment from "moment";
 import { withRouter } from "react-router";
@@ -53,6 +58,8 @@ class Post extends Component {
                   score={post.voteScore}
                   kind="post"
                   postId={post.id}
+                  onUpVote={this.props.upVotePost}
+                  onDownVote={this.props.downVotePost}
                 />
               </div>
               <div className="card-title h5">
@@ -109,6 +116,8 @@ function mapStateToProps({ comments, posts }, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    upVotePost: data => dispatch(upVotePost(data)),
+    downVotePost: data => dispatch(downVotePost(data)),
     getComments: data => dispatch(getComments(data)),
     getPost: data => dispatch(getPost(data)),
     removePost: data => dispatch(removePost(data))

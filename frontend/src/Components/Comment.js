@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import VoteButtons from "./VoteButtons";
 import EditControls from "./EditControls";
 import { connect } from "react-redux";
-import { removeComment } from "../Actions/comments";
+import {
+  removeComment,
+  upVoteComment,
+  downVoteComment
+} from "../Actions/comments";
 import moment from "moment";
 
 class Comment extends Component {
@@ -15,7 +19,9 @@ class Comment extends Component {
             <VoteButtons
               score={comment.voteScore}
               kind="comment"
-              commentId={comment.id}
+              comment={comment}
+              onUpVote={this.props.upVoteComment}
+              onDownVote={this.props.downVoteComment}
             />
           </div>
         </div>
@@ -45,6 +51,8 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return {
+    upVoteComment: data => dispatch(upVoteComment(data)),
+    downVoteComment: data => dispatch(downVoteComment(data)),
     removeComment: data => dispatch(removeComment(data))
   };
 }

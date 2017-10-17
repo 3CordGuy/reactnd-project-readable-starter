@@ -201,6 +201,20 @@ function comments(state = {}, action) {
       };
     }
 
+    case DOWN_VOTE_COMMENT:
+    case UP_VOTE_COMMENT: {
+      const { comment } = action;
+      const postComments = state[comment.parentId];
+
+      const removed = postComments.filter(c => comment.id !== c.id);
+
+      return {
+        ...state,
+        [comment.parentId]: [...removed, comment],
+        isFetching: false
+      };
+    }
+
     default:
       return state;
   }

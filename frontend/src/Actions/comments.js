@@ -58,12 +58,12 @@ export const removeComment = comment => dispatch =>
     dispatch(deleteComment(comment))
   );
 
-export const upVoteComment = commentId => dispatch =>
-  ReadableAPI.voteComment(commentId, "upVote").then(comment =>
-    dispatch(voteCommentUp(comment))
+export const upVoteComment = comment => dispatch =>
+  ReadableAPI.voteComment(comment.id, "upVote").then(newComment =>
+    dispatch(voteCommentUp(newComment))
   );
 
-export const downVoteComment = commentId => dispatch =>
-  ReadableAPI.voteComment(commentId, "downVote").then(comment =>
-    dispatch(voteCommentDown(comment))
+export const downVoteComment = comment => dispatch =>
+  ReadableAPI.voteComment(comment.id, "downVote").then(newComment =>
+    dispatch(voteCommentDown(newComment))
   );
