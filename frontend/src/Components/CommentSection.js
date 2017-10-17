@@ -3,7 +3,7 @@ import Comment from "./Comment";
 import CommentAddForm from "./CommentAddForm";
 import sortBy from "sort-by";
 
-export default function CommentSection({ comments, postId }) {
+export default function CommentSection({ comments, postId, sort }) {
   return (
     <div className="card">
       <div className="card-header">
@@ -16,7 +16,7 @@ export default function CommentSection({ comments, postId }) {
         <h6>{comments && comments.length} Comments</h6>
         {comments &&
           comments
-            .sort(sortBy("-voteScore", "-timestamp"))
+            .sort(sortBy(sort))
             .map(comment => <Comment key={comment.id} comment={comment} />)}
       </div>
     </div>

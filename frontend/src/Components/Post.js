@@ -31,7 +31,7 @@ class Post extends Component {
   }
 
   render() {
-    const { posts, detailView, comments } = this.props;
+    const { posts, detailView, comments, sort } = this.props;
     const post = posts.length && posts[0];
 
     return (
@@ -100,7 +100,7 @@ class Post extends Component {
         )}
         <div className="container">
           {detailView && (
-            <CommentSection postId={post.id} comments={comments} />
+            <CommentSection postId={post.id} sort={sort} comments={comments} />
           )}
         </div>
       </div>
@@ -108,10 +108,11 @@ class Post extends Component {
   }
 }
 
-function mapStateToProps({ comments, posts }, ownProps) {
+function mapStateToProps({ comments, posts, sort }, ownProps) {
   const postId = ownProps.postId || ownProps.match.params.postId;
   return {
     comments: comments[postId],
+    sort,
     posts: posts.items.filter(post => post.id === postId)
   };
 }
