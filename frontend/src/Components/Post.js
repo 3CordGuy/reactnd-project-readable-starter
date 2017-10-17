@@ -10,6 +10,7 @@ import {
   upVotePost,
   downVotePost
 } from "../Actions/posts";
+import { openModal } from "../Actions/modal";
 import { getComments } from "../Actions/comments";
 import moment from "moment";
 import { withRouter } from "react-router";
@@ -19,8 +20,8 @@ class Post extends Component {
     const { getComments, getPost, posts, match } = this.props;
     const reduxPost = posts && posts.length && posts[0];
     const routePostId = match && match.params && match.params.postId;
-    console.log("REDUX", reduxPost, "ROUTE", routePostId);
 
+    // Is post loaded in redux state? Don't fetch...
     if (reduxPost && reduxPost.id) {
       getComments(reduxPost.id);
     } else {
@@ -44,7 +45,8 @@ class Post extends Component {
                     <EditControls
                       isPrimary={true}
                       label="POST CONTROLS"
-                      onEditHandler={() => console.log("Clicked Edit Post")}
+                      onEditHandler={() =>
+                        this.props.openModal({ id: post.id, context: "post" })}
                       onDeleteHandler={() => {
                         this.props.removePost(post.id);
                         this.props.history.push("/");
@@ -120,7 +122,8 @@ function mapDispatchToProps(dispatch) {
     downVotePost: data => dispatch(downVotePost(data)),
     getComments: data => dispatch(getComments(data)),
     getPost: data => dispatch(getPost(data)),
-    removePost: data => dispatch(removePost(data))
+    removePost: data => dispatch(removePost(data)),
+    openModal: data => dispatch(openModal(data))
   };
 }
 

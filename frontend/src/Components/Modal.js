@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import uuid from "js-uuid";
 import { connect } from "react-redux";
-import { addPost, removePost } from "../Actions/posts";
+import { addPost, editPost, removePost } from "../Actions/posts";
 // import { updateComment } from "../Actions/comments";
 import { closeModal } from "../Actions/modal";
 import { getCategories } from "../Actions/categories";
@@ -38,6 +38,7 @@ class Modal extends Component {
     }
 
     const { title, body, author, category } = this.state;
+    const { modal } = this.props;
     const POST = {
       timestamp: Date.now(),
       id: uuid.v4(),
@@ -49,7 +50,14 @@ class Modal extends Component {
 
     this.resetState();
 
-    this.props.addPost(POST);
+    // Determine if modal is open for edit or adding
+    if (modal.id) {
+      POST.id = modal.id;
+      this.props.editPost(POST);
+    } else {
+      this.props.addPost(POST);
+    }
+
     this.props.closeModal();
     this.props.history.push(`/${POST.category}/${POST.id}`);
     e.preventDefault();
@@ -76,9 +84,22 @@ class Modal extends Component {
     });
   };
 
-  componentDidMount() {
-    if (this.props.context === "post") {
+  componentWillReceiveProps(nextProps) {
+    const { modal } = nextProps;
+    if (modal && modal.context === "post" && modal.id) {
+      const post = nextProps.posts.items.filter(
+        post => post.id === modal.id
+      )[0];
+      this.setState({
+        body: post.body,
+        author: post.author,
+        title: post.title,
+        category: post.category
+      });
     }
+  }
+
+  componentDidMount() {
     this.props.getCategories();
   }
 
@@ -91,7 +112,10 @@ class Modal extends Component {
         <div className="modal-overlay" />
         <div className="modal-container">
           <div className="modal-header">
-            <div className="modal-title h5">Add New Post</div>
+            <div className="modal-title h5">
+              {modal.id ? "Edit" : "Add"}{" "}
+              {modal.context === "post" ? "Post" : "Comment"}
+            </div>
           </div>
           <div className="modal-body bg-secondary">
             <div className="content">
@@ -102,44 +126,52 @@ class Modal extends Component {
                   }
                 >
                   <div className="columns">
-                    <div className="column col-6">
-                      <div className="form-group">
-                        <label className="form-label" htmlFor="author-name">
-                          Name
-                        </label>
-                        <input
-                          className="form-input"
-                          type="text"
-                          id="author-name"
-                          name="author"
-                          placeholder="Your Name"
-                          value={this.state.author}
-                          onChange={this.handleChange}
-                        />
+                    {!modal.id && (
+                      <div className="column col-6">
+                        <div className="form-group">
+                          <label className="form-label" htmlFor="author-name">
+                            Name
+                          </label>
+                          <input
+                            className="form-input"
+                            type="text"
+                            id="author-name"
+                            name="author"
+                            placeholder="Your Name"
+                            value={this.state.author}
+                            onChange={this.handleChange}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="column col-6">
-                      <div className="form-group">
-                        <label className="form-label" htmlFor="category-select">
-                          Category
-                        </label>
-                        <select
-                          className="form-select"
-                          name="category"
-                          id="category-select"
-                          value={this.state.category}
-                          onChange={this.handleChange}
-                        >
-                          <option value="">Select Category</option>
-                          {categories.length > 0 &&
-                            categories.map(c => (
-                              <option key={c.name} value={c.name}>
-                                {c.name.toUpperCase()}
-                              </option>
-                            ))}
-                        </select>
+                    )}
+
+                    {!modal.id && (
+                      <div className="column col-6">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="category-select"
+                          >
+                            Category
+                          </label>
+                          <select
+                            className="form-select"
+                            name="category"
+                            id="category-select"
+                            value={this.state.category}
+                            onChange={this.handleChange}
+                          >
+                            <option value="">Select Category</option>
+                            {categories.length > 0 &&
+                              categories.map(c => (
+                                <option key={c.name} value={c.name}>
+                                  {c.name.toUpperCase()}
+                                </option>
+                              ))}
+                          </select>
+                        </div>
                       </div>
-                    </div>
+                    )}
                     <div className="column col-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="title-field">
@@ -191,11 +223,14 @@ class Modal extends Component {
               className="btn btn-lg btn-primary float-right"
               onClick={this.handleSubmit}
             >
-              Create
+              {modal.id ? "Update" : "Submit"}
             </button>
             <button
               className="btn btn-lg mx-2 btn-link"
-              onClick={this.props.closeModal}
+              onClick={() => {
+                this.resetState();
+                this.props.closeModal();
+              }}
             >
               Cancel
             </button>
@@ -206,7 +241,7 @@ class Modal extends Component {
   }
 }
 
-function mapStateToProps({ categories, posts, modal, ownProps }) {
+function mapStateToProps({ categories, posts, modal }, ownProps) {
   return {
     ...ownProps,
     categories: categories.items,
@@ -218,10 +253,11 @@ function mapStateToProps({ categories, posts, modal, ownProps }) {
 function mapDispatchToProps(dispatch) {
   return {
     addPost: data => dispatch(addPost(data)),
+    editPost: data => dispatch(editPost(data)),
     removePost: data => dispatch(removePost(data)),
     getCategories: data => dispatch(getCategories(data)),
     closeModal: data => dispatch(closeModal())
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Modal));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Modal));
