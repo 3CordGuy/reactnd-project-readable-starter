@@ -151,7 +151,7 @@ export const updateComment = comment =>
       ...headers,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ timestamp: comment.title, body: comment.body })
+    body: JSON.stringify({ timestamp: comment.timestamp, body: comment.body })
   }).then(res => res.json());
 
 /**
