@@ -50,7 +50,7 @@ export const addComment = comment => dispatch =>
 
 export const editComment = comment => dispatch =>
   ReadableAPI.updateComment(comment).then(result =>
-    dispatch(updateComment(comment))
+    dispatch(updateComment(result))
   );
 
 export const removeComment = comment => dispatch =>

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import uuid from "js-uuid";
 import { connect } from "react-redux";
 import { addPost, editPost, removePost } from "../Actions/posts";
-// import { updateComment } from "../Actions/comments";
 import { closeModal } from "../Actions/modal";
 import { getCategories } from "../Actions/categories";
 import { withRouter } from "react-router";
@@ -48,15 +47,15 @@ class Modal extends Component {
       category
     };
 
-    this.resetState();
-
     // Determine if modal is open for edit or adding
-    if (modal.id) {
-      POST.id = modal.id;
+    if (modal.data.id) {
+      POST.id = modal.data.id;
       this.props.editPost(POST);
     } else {
       this.props.addPost(POST);
     }
+
+    this.resetState();
 
     this.props.closeModal();
     this.props.history.push(`/${POST.category}/${POST.id}`);
@@ -86,17 +85,19 @@ class Modal extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { modal } = nextProps;
-    if (modal && modal.context === "post" && modal.id) {
-      const post = nextProps.posts.items.filter(
-        post => post.id === modal.id
-      )[0];
-      this.setState({
-        body: post.body,
-        author: post.author,
-        title: post.title,
-        category: post.category
-      });
+
+    if (!modal.data || !modal.data.id) {
+      return;
     }
+
+    const post = modal.data;
+
+    this.setState({
+      body: post.body,
+      author: post.author,
+      title: post.title,
+      category: post.category
+    });
   }
 
   componentDidMount() {
@@ -113,8 +114,7 @@ class Modal extends Component {
         <div className="modal-container">
           <div className="modal-header">
             <div className="modal-title h5">
-              {modal.id ? "Edit" : "Add"}{" "}
-              {modal.context === "post" ? "Post" : "Comment"}
+              {modal.data.id ? "Edit" : "Add"} Post
             </div>
           </div>
           <div className="modal-body bg-secondary">
@@ -126,7 +126,7 @@ class Modal extends Component {
                   }
                 >
                   <div className="columns">
-                    {!modal.id && (
+                    {!modal.data.id && (
                       <div className="column col-6">
                         <div className="form-group">
                           <label className="form-label" htmlFor="author-name">
@@ -145,7 +145,7 @@ class Modal extends Component {
                       </div>
                     )}
 
-                    {!modal.id && (
+                    {!modal.data.id && (
                       <div className="column col-6">
                         <div className="form-group">
                           <label

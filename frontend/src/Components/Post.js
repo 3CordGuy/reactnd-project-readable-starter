@@ -12,6 +12,7 @@ import {
 } from "../Actions/posts";
 import { openModal } from "../Actions/modal";
 import { getComments } from "../Actions/comments";
+import { setSort } from "../Actions/sort";
 import moment from "moment";
 import { withRouter } from "react-router";
 
@@ -45,8 +46,7 @@ class Post extends Component {
                     <EditControls
                       isPrimary={true}
                       label="POST CONTROLS"
-                      onEditHandler={() =>
-                        this.props.openModal({ id: post.id, context: "post" })}
+                      onEditHandler={() => this.props.openModal(post)}
                       onDeleteHandler={() => {
                         this.props.removePost(post.id);
                         this.props.history.push("/");
@@ -98,9 +98,14 @@ class Post extends Component {
             </div>
           </div>
         )}
-        <div className="container">
+        <div className="container" style={{ marginBottom: 20 }}>
           {detailView && (
-            <CommentSection postId={post.id} sort={sort} comments={comments} />
+            <CommentSection
+              postId={post.id}
+              sort={sort}
+              onSortClick={this.props.setSort}
+              comments={comments}
+            />
           )}
         </div>
       </div>
@@ -119,6 +124,7 @@ function mapStateToProps({ comments, posts, sort }, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    setSort: data => dispatch(setSort(data)),
     upVotePost: data => dispatch(upVotePost(data)),
     downVotePost: data => dispatch(downVotePost(data)),
     getComments: data => dispatch(getComments(data)),

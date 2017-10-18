@@ -135,15 +135,14 @@ function sort(state = "-voteScore", action) {
   }
 }
 
-function modal(state = { isOpen: false, context: null, id: null }, action) {
+function modal(state = { isOpen: false, data: {} }, action) {
   switch (action.type) {
     case OPEN_MODAL: {
-      const { id, context } = action;
+      const { data } = action;
       return {
         ...state,
         isOpen: true,
-        context,
-        id
+        data
       };
     }
 
@@ -151,8 +150,7 @@ function modal(state = { isOpen: false, context: null, id: null }, action) {
       return {
         ...state,
         isOpen: false,
-        context: null,
-        id: null
+        data: {}
       };
     }
 
@@ -215,6 +213,18 @@ function comments(state = {}, action) {
       };
     }
 
+    case UPDATE_COMMENT: {
+      const { comment } = action;
+      const postComments = state[comment.parentId];
+
+      const removed = postComments.filter(c => comment.id !== c.id);
+
+      return {
+        ...state,
+        [comment.parentId]: [...removed, comment],
+        isFetching: false
+      };
+    }
     default:
       return state;
   }

@@ -18,7 +18,7 @@ class Header extends Component {
             <SortDropdown />
             <button
               className="btn btn-primary input-group-btn"
-              onClick={() => this.props.openModal({ context: "post" })}
+              onClick={() => this.props.openModal({ data: {} })}
             >
               <i className="icon icon-plus" /> Create Post
             </button>
