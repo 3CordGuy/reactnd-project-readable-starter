@@ -22,7 +22,7 @@ $ npm run start
 
 Open another terminal window
 ```
-// Install the Front End dependencies and run
+// Install the Frontend dependencies and run
 $ cd frontend
 $ npm install
 $ npm run start
