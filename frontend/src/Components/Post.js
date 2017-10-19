@@ -32,71 +32,77 @@ class Post extends Component {
   }
 
   render() {
-    const { posts, detailView, comments, sort } = this.props;
+    const { posts, detailView, comments, sort, isFetching } = this.props;
     const post = posts.length && posts[0];
 
     return (
       <div>
-        {post && (
-          <div className="card bg-gray m-2">
-            <div className="card-header">
+        {isFetching ? (
+          <div className="loading loading-lg" />
+        ) : (
+          post && (
+            <div className="card bg-gray m-2">
+              <div className="card-header">
+                <div>
+                  {detailView && (
+                    <span className="float-right">
+                      <EditControls
+                        isPrimary={true}
+                        label="POST CONTROLS"
+                        onEditHandler={() => this.props.openModal(post)}
+                        onDeleteHandler={() => {
+                          this.props.removePost(post.id);
+                          this.props.history.push("/");
+                        }}
+                      />
+                    </span>
+                  )}
+                </div>
+                <div className="float-left mx-2">
+                  <VoteButtons
+                    score={post.voteScore}
+                    kind="post"
+                    postId={post.id}
+                    onUpVote={this.props.upVotePost}
+                    onDownVote={this.props.downVotePost}
+                  />
+                </div>
+                <div className="card-title h5">
+                  {detailView ? (
+                    post.title
+                  ) : (
+                    <Link
+                      className="card-title h5"
+                      to={`/${post.category}/${post.id}`}
+                    >
+                      {post.title}
+                    </Link>
+                  )}
+                </div>
+                <div className="card-subtitle text-gray">
+                  Submitted {moment(post.timestamp).fromNow()} on{" "}
+                  {moment(post.timestamp).format(
+                    "MMM Do, YYYY [at] hh:mm a"
+                  )}{" "}
+                  by <span className="text-bold">{post.author}</span>
+                </div>
+                <Link className="chip" to={`/${post.category}`}>
+                  {post.category}
+                </Link>
+              </div>
               <div>
-                {detailView && (
-                  <span className="float-right">
-                    <EditControls
-                      isPrimary={true}
-                      label="POST CONTROLS"
-                      onEditHandler={() => this.props.openModal(post)}
-                      onDeleteHandler={() => {
-                        this.props.removePost(post.id);
-                        this.props.history.push("/");
-                      }}
-                    />
-                  </span>
-                )}
-              </div>
-              <div className="float-left mx-2">
-                <VoteButtons
-                  score={post.voteScore}
-                  kind="post"
-                  postId={post.id}
-                  onUpVote={this.props.upVotePost}
-                  onDownVote={this.props.downVotePost}
-                />
-              </div>
-              <div className="card-title h5">
-                {detailView ? (
-                  post.title
-                ) : (
-                  <Link
-                    className="card-title h5"
-                    to={`/${post.category}/${post.id}`}
-                  >
-                    {post.title}
-                  </Link>
-                )}
-              </div>
-              <div className="card-subtitle text-gray">
-                Submitted {moment(post.timestamp).fromNow()} on{" "}
-                {moment(post.timestamp).format("MMM Do, YYYY [at] hh:mm a")} by{" "}
-                <span className="text-bold">{post.author}</span>
-              </div>
-              <Link className="chip" to={`/${post.category}`}>
-                {post.category}
-              </Link>
-            </div>
-            <div>
-              <div className="card-body">{detailView && post.body}</div>
-              <div className="card-footer">
-                {!detailView && (
-                  <div className="label m-1">
-                    <i className="icon icon-message" />{" "}
-                    {comments && comments.length} Comments
-                  </div>
-                )}
+                <div className="card-body">{detailView && post.body}</div>
+                <div className="card-footer">
+                  {!detailView && (
+                    <div className="label m-1">
+                      <i className="icon icon-message" />{" "}
+                      {comments && comments.length} Comments
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          )
         )}
         <div className="container" style={{ marginBottom: 20 }}>
           {detailView && (
@@ -118,6 +124,7 @@ function mapStateToProps({ comments, posts, sort }, ownProps) {
   return {
     comments: comments[postId],
     sort,
+    isFetching: posts.isFetching,
     posts: posts.items.filter(post => post.id === postId)
   };
 }
