@@ -33,10 +33,7 @@ class CommentAddForm extends Component {
     const { loading } = this.state;
 
     return (
-      <form
-        className="container rounded p-2 bg-secondary"
-        onSubmit={this.handleSubmit}
-      >
+      <form className="container rounded p-2" onSubmit={this.handleSubmit}>
         <fieldset disabled={loading && "disabled"}>
           <div className="form-group">
             <label className="form-label" htmlFor="author-name">

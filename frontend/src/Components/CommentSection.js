@@ -12,7 +12,7 @@ export default function CommentSection({
   return (
     <div className="card">
       <div className="card-header">
-        <div className="card-title">Add a Comment</div>
+        <div className="card-title h5">Add a Comment</div>
       </div>
       <div className="card-body">
         <CommentAddForm postId={postId} />
