@@ -45,6 +45,12 @@ ____
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
 
+
+#### Special thanks to...
+
+- [Spectre.css](https://picturepan2.github.io/spectre/index.html) - Nifty, lightweight css-only framework for quick prototyping
+- [ReactTraining](//reacttraining.com) - Cool guys who make solid training materials
+
 #### Licensing
 
 MIT License
