@@ -4,7 +4,9 @@ Readable is a simple Reddit clone that allows you to create posts to different c
 
 The App contains both a simple express server backend and a front end app built with **React** and **Redux.**
 
-![readable-screenshot](https://user-images.githubusercontent.com/30707961/31749967-b32929ec-b442-11e7-81d2-cac7f71bbb05.png)
+![readable-1](https://user-images.githubusercontent.com/30707961/31755319-4b3a6f78-b463-11e7-9249-6c5e1d786764.png)
+![readable-2](https://user-images.githubusercontent.com/30707961/31755320-4b493544-b463-11e7-8a28-727318879649.png)
+![readable-0](https://user-images.githubusercontent.com/30707961/31755321-4b579a6c-b463-11e7-8308-2a7a25ede04a.png)
 
 ## Installation
 
