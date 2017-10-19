@@ -12,8 +12,10 @@ class PostList extends Component {
   state = {
     sort: null
   };
+
   componentDidMount() {
     const { params } = this.props.match;
+
     if (params && params.category) {
       this.props.getCategoryPosts(params.category);
     } else {
@@ -22,12 +24,15 @@ class PostList extends Component {
   }
 
   render() {
-    const { posts, sort } = this.props;
+    const { posts, sort, isFetching } = this.props;
     const { category } = this.props.match.params;
+
     return (
       <div className="columns">
         <div className="column col-9">
-          {posts && posts.length > 0 ? (
+          {isFetching ? (
+            <div className="loading loading-lg" />
+          ) : posts.length > 0 ? (
             posts
               .sort(sortBy(sort))
               .map(post => (
@@ -46,6 +51,7 @@ class PostList extends Component {
 function mapStateToProps({ posts, sort }) {
   return {
     posts: posts.items,
+    isFetching: posts.isFetching,
     sort
   };
 }
