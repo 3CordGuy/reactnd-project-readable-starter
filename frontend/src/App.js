@@ -4,7 +4,6 @@ import Header from "./Components/Header";
 import PostList from "./Components/PostList";
 import Post from "./Components/Post";
 import Modal from "./Components/Modal";
-import "./App.css";
 import "spectre.css/dist/spectre.min.css";
 import "spectre.css/dist/spectre-icons.min.css";
 
