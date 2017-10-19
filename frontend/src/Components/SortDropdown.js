@@ -8,9 +8,9 @@ class SortDropdown extends Component {
     return (
       <div className="dropdown mx-2">
         <div className="btn-group">
-          <button className="btn dropdown-toggle" tabIndex="0">
+          <a className="btn dropdown-toggle" tabIndex="0">
             <i className="icon icon-caret" />
-          </button>
+          </a>
           <ul className="menu">
             <li className="divider" data-content="SORT" />
             <li

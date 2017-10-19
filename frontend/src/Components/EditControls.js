@@ -29,13 +29,13 @@ export default class EditControls extends Component {
     return (
       <div className="dropdown dropdown-right mx-2 float-right">
         <div className="btn-group">
-          <button
+          <a
             className={`btn dropdown-toggle ${isPrimary && "btn-primary"}`}
             tabIndex="0"
             onMouseOver={this.onCancelConfirm}
           >
             <i className="icon icon-menu" />
-          </button>
+          </a>
 
           {this.state.showConfirm ? (
             <ul className="menu">

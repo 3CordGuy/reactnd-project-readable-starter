@@ -4,8 +4,8 @@ import Header from "./Components/Header";
 import PostList from "./Components/PostList";
 import Post from "./Components/Post";
 import Modal from "./Components/Modal";
-import "spectre.css/dist/spectre.min.css";
-import "spectre.css/dist/spectre-icons.min.css";
+import "./spectre.min.css";
+import "./spectre-icons.min.css";
 
 class App extends Component {
   render() {
