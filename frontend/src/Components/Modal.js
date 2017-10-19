@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { addPost, editPost, removePost } from "../Actions/posts";
 import { closeModal } from "../Actions/modal";
 import { getCategories } from "../Actions/categories";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 
 class Modal extends Component {
   state = {

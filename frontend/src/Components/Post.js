@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import CommentSection from "./CommentSection";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import VoteButtons from "./VoteButtons";
 import EditControls from "./EditControls";
 import { connect } from "react-redux";
@@ -14,7 +14,6 @@ import { openModal } from "../Actions/modal";
 import { getComments } from "../Actions/comments";
 import { setSort } from "../Actions/sort";
 import moment from "moment";
-import { withRouter } from "react-router";
 
 class Post extends Component {
   componentDidMount() {
