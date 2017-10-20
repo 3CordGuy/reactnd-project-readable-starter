@@ -74,7 +74,7 @@ function posts(state = { items: [], isFetching: false }, action) {
 
     case DELETE_POST: {
       const { postId } = action;
-      const items = state.items.filter(post => post !== postId);
+      const items = state.items.filter(post => post.id !== postId);
 
       return {
         ...state,
