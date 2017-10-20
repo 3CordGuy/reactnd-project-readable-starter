@@ -68,9 +68,11 @@ export const getPosts = () => dispatch => {
   dispatch(requestPosts());
   ReadableAPI.getPosts().then(posts => {
     dispatch(receivePosts(posts));
-    posts.forEach(p => {
-      dispatch(getComments(p.id));
-    });
+    posts &&
+      posts.length > 0 &&
+      posts.forEach(p => {
+        dispatch(getComments(p.id));
+      });
   });
 };
 
