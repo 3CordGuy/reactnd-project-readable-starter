@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import * as ReadableAPI from "../Util/readable-api";
 import Post from "./Post";
 import CategoryList from "./CategoryList";
 import NoPost from "./NoPost";

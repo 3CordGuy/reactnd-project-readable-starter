@@ -1,4 +1,5 @@
 import * as ReadableAPI from "../Util/readable-api";
+import { getComments } from "./comments";
 export const REQUEST_POSTS = "REQUEST_POSTS";
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
 export const RECEIVE_POST = "RECEIVE_POST";
@@ -65,7 +66,12 @@ export const votePostDown = post => {
 
 export const getPosts = () => dispatch => {
   dispatch(requestPosts());
-  ReadableAPI.getPosts().then(posts => dispatch(receivePosts(posts)));
+  ReadableAPI.getPosts().then(posts => {
+    dispatch(receivePosts(posts));
+    posts.forEach(p => {
+      dispatch(getComments(p.id));
+    });
+  });
 };
 
 export const getPost = postId => dispatch => {

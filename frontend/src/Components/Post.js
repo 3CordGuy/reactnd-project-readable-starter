@@ -11,23 +11,17 @@ import {
   downVotePost
 } from "../Actions/posts";
 import { openModal } from "../Actions/modal";
-import { getComments } from "../Actions/comments";
 import { setSort } from "../Actions/sort";
 import moment from "moment";
 
 class Post extends Component {
   componentDidMount() {
-    const { getComments, getPost, posts, match } = this.props;
+    const { getPost, posts, match } = this.props;
     const reduxPost = posts && posts.length && posts[0];
     const routePostId = match && match.params && match.params.postId;
 
-    // Is post loaded in redux state? Don't fetch...
-    if (reduxPost && reduxPost.id) {
-      getComments(reduxPost.id);
-    } else {
-      getPost(routePostId);
-      getComments(routePostId);
-    }
+    // if no post loaded in redux state? Do fetch...
+    !reduxPost && !reduxPost.id && getPost(routePostId);
   }
 
   render() {
@@ -43,19 +37,17 @@ class Post extends Component {
             <div className="card bg-gray m-2">
               <div className="card-header">
                 <div>
-                  {detailView && (
-                    <span className="float-right">
-                      <EditControls
-                        isPrimary={true}
-                        label="POST CONTROLS"
-                        onEditHandler={() => this.props.openModal(post)}
-                        onDeleteHandler={() => {
-                          this.props.removePost(post.id);
-                          this.props.history.push("/");
-                        }}
-                      />
-                    </span>
-                  )}
+                  <span className="float-right">
+                    <EditControls
+                      isPrimary={true}
+                      label="POST CONTROLS"
+                      onEditHandler={() => this.props.openModal(post)}
+                      onDeleteHandler={() => {
+                        this.props.removePost(post.id);
+                        this.props.history.push("/");
+                      }}
+                    />
+                  </span>
                 </div>
                 <div className="float-left mx-2">
                   <VoteButtons
@@ -133,7 +125,6 @@ function mapDispatchToProps(dispatch) {
     setSort: data => dispatch(setSort(data)),
     upVotePost: data => dispatch(upVotePost(data)),
     downVotePost: data => dispatch(downVotePost(data)),
-    getComments: data => dispatch(getComments(data)),
     getPost: data => dispatch(getPost(data)),
     removePost: data => dispatch(removePost(data)),
     openModal: data => dispatch(openModal(data))
