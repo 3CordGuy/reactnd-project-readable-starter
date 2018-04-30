@@ -34,7 +34,7 @@ $ npm run start
 
 ## Usage
 
-You can click **Creat Post** and add new posts or comment on existing posts. Editing and removal of posts and comments is also accomplished by clicking the top right hamburger button on each.
+You can click **Create Post** and add new posts or comment on existing posts. Editing and removal of posts and comments is also accomplished by clicking the top right hamburger button on each.
 
 
 #### Note:
